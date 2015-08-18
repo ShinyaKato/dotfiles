@@ -1,3 +1,19 @@
+"" Vundleの設定
+set nocompatible
+filetype off
+set rtp+=~/.vim/vimfiles/vundle.vim.git
+call vundle#begin()
+" Let Vundle manage itself
+Plugin 'gmarik/Vundle.vim'
+" Plugins
+Plugin 'tpope/vim-endwise'
+" Plugins
+Plugin 'tomtom/tcomment_vim'
+" required !!
+call vundle#end()
+filetype plugin indent on
+
+
 "" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)  
 " タグファイルの指定
 " set tags=~/.tags
