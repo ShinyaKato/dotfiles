@@ -1,4 +1,5 @@
-"" Vundleの設定
+"
+" Vundleの設定
 set nocompatible
 filetype off
 set rtp+=~/.vim/vimfiles/vundle.vim.git
@@ -6,15 +7,22 @@ call vundle#begin()
 " Let Vundle manage itself
 Plugin 'gmarik/Vundle.vim'
 " Plugins
+" rubyのendを自動保管
 Plugin 'tpope/vim-endwise'
-" Plugins
+" 'Ctrl' + '-'を二回押すとコメントアウト
 Plugin 'tomtom/tcomment_vim'
+" インデントを可視化
+Plugin 'nathanaelkane/vim-indent-guides'
 " required !!
 call vundle#end()
 filetype plugin indent on
 
+"
+" vimの起動時に自動的にインデントを可視化
+let g:indent_guides_enable_on_vim_startup=1
 
-"" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)  
+"
+" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)  
 " タグファイルの指定
 " set tags=~/.tags
 " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
@@ -74,7 +82,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 " 構文毎に文字色を変化させる
 syntax on
 " カラースキーマの指定
-" colorscheme desert
-" 行番号の色
-" highlight LineNr ctermfg=darkyelloghlight statusline   term=NONE
+colorscheme desert
+" backspaceを有効にする
+set backspace=2
 
