@@ -6,7 +6,10 @@ set rtp+=~/.vim/vimfiles/vundle.vim.git
 call vundle#begin()
 " Let Vundle manage itself
 Plugin 'gmarik/Vundle.vim'
-" Plugins
+" ファイルオープンを便利に
+Plugin 'Shougo/unite.vim'
+" Unite.vimで最近使ったファイルを表示できるようにする
+Plugin 'Shougo/neomru.vim'
 " rubyのendを自動保管
 Plugin 'tpope/vim-endwise'
 " 'Ctrl' + '-'を二回押すとコメントアウト
@@ -16,6 +19,22 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " required !!
 call vundle#end()
 filetype plugin indent on
+
+"
+" Unit.vimの設定
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 "
 " vimの起動時に自動的にインデントを可視化
@@ -85,4 +104,18 @@ syntax on
 colorscheme desert
 " backspaceを有効にする
 set backspace=2
+
+"
+" ファイルを閉じるときにカーソル位置を記憶
+if has("autocmd")
+  augroup redhat
+    " In text files, always limit the width of text to 78 characters
+    autocmd BufRead *.txt set tw=78
+    " When editing a file, always jump to the last cursor position
+    autocmd BufReadPost *
+      \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+      \   exe "normal! g'\"" |
+      \ endif
+    augroup END
+endif
 
