@@ -10,12 +10,18 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Shougo/unite.vim'
 " Unite.vimで最近使ったファイルを表示できるようにする
 Plugin 'Shougo/neomru.vim'
+" ファイルをツリー表示
+Plugin 'scrooloose/nerdtree'
 " rubyのendを自動保管
 Plugin 'tpope/vim-endwise'
 " 'Ctrl' + '-'を二回押すとコメントアウト
 Plugin 'tomtom/tcomment_vim'
 " インデントを可視化
 Plugin 'nathanaelkane/vim-indent-guides'
+" ログファイルを色付け
+Plugin 'vim-scripts/AnsiEsc.vim'
+" vim-rails
+Plugin 'tpope/vim-rails'
 " required !!
 call vundle#end()
 filetype plugin indent on
@@ -39,6 +45,34 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 "
 " vimの起動時に自動的にインデントを可視化
 let g:indent_guides_enable_on_vim_startup=1
+
+"
+" vim-rails設定
+let g:rails_default_file='config/database.yml'
+let g:rails_level = 4
+let g:rails_mappings=1
+let g:rails_modelines=0
+" let g:rails_some_option = 1
+" let g:rails_statusline = 1
+" let g:rails_subversion=0
+" let g:rails_syntax = 1
+" let g:rails_url='http://localhost:3000'
+" let g:rails_ctags_arguments='--languages=-javascript'
+" let g:rails_ctags_arguments = ''
+function! SetUpRailsSetting()
+  nnoremap <buffer><Space>r :R<CR>
+  nnoremap <buffer><Space>a :A<CR>
+  nnoremap <buffer><Space>m :Rmodel<Space>
+  nnoremap <buffer><Space>c :Rcontroller<Space>
+  nnoremap <buffer><Space>v :Rview<Space>
+  nnoremap <buffer><Space>p :Rpreview<CR>
+endfunction
+aug MyAutoCmd
+  au User Rails call SetUpRailsSetting()
+aug END
+aug RailsDictSetting
+  au!
+aug END
 
 "
 " 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)  
