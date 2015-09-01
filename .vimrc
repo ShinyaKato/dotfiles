@@ -138,6 +138,8 @@ syntax on
 colorscheme desert
 " backspaceを有効にする
 set backspace=2
+" クリップボードを使用
+set clipboard=unnamed,autoselect
 
 "
 " ファイルを閉じるときにカーソル位置を記憶
