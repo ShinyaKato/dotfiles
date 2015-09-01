@@ -2,7 +2,7 @@
 " Vundleの設定
 set nocompatible
 filetype off
-set rtp+=~/.vim/vimfiles/vundle.vim.git
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " Let Vundle manage itself
 Plugin 'gmarik/Vundle.vim'
