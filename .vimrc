@@ -1,4 +1,3 @@
-
 "
 " Vundleの設定
 set nocompatible
