@@ -20,6 +20,7 @@ Plugin 'othree/html5.vim'                " html5の追加syntax
 Plugin 'jelera/vim-javascript-syntax'    " JavaScriptの追加syntax
 Plugin 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
 Plugin 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
+Plugin 'tpope/vim-fugitive'              " VimからGit操作を可能にする
 call vundle#end() " required !!
 filetype plugin indent on
 
@@ -32,6 +33,10 @@ noremap <C-Z> :Unite file_mru<CR>
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
+"
+" NERDTree設定
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
 "
 " IndentGuides設定
@@ -71,13 +76,11 @@ let MRU_Open_File_Use_Tabs=1
 nnoremap R :MRU<CR>
 
 "
-" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)  
+" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)
 set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
 set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
 set cmdheight=2                  " コマンドラインに使われる画面上の行数
 set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
-set statusline=%<%f\%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P 
-"                                " ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
 set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
 set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
 set showcmd                      " 入力中のコマンドを表示する
@@ -101,6 +104,7 @@ syntax on                        " 構文毎に文字色を変化させる
 colorscheme desert               " カラースキーマの指定
 set backspace=2                  " backspaceを有効にする
 set clipboard=unnamed,autoselect " クリップボードを使用
+set statusline=%<%f\%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']'}%{fugitive#statusline()}%=%l,%c%V%8P
 
 "
 " タブまわりのキーバインド
