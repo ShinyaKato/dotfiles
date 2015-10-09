@@ -9,12 +9,17 @@ Plugin 'Shougo/unite.vim'                " ファイルオープンを便利に
 Plugin 'Shougo/neomru.vim'               " Unite.vimで最近使ったファイルを表示できるようにする
 Plugin 'scrooloose/nerdtree'             " ファイルをツリー表示
 Plugin 'tpope/vim-endwise'               " rubyのendを自動保管
-Plugin 'tomtom/tcomment_vim'             " 'Ctrl' + '-'を二回押すとコメントアウト
+Plugin 'tomtom/tcomment_vim'             " 'Ctrl' + '_'を二回押すとコメントアウト
 Plugin 'nathanaelkane/vim-indent-guides' " インデントを可視化
 Plugin 'vim-scripts/AnsiEsc.vim'         " ログファイルを色付け
-Plugin 'tpope/vim-rails'                 " vim-rails
-Plugin 'mattn/emmet-vim'                 " emmet-vim
-Plugin 'tpope/vim-surround'              " surround.vim
+Plugin 'tpope/vim-rails'                 " Railsプロジェクト内を自由に行き来できる
+Plugin 'mattn/emmet-vim'                 " htmlのコーディング支援
+Plugin 'tpope/vim-surround'              " 「テキストを囲うテキスト」オブジェクトを追加
+Plugin 'hail2u/vim-css3-syntax'          " CSS3の追加syntax
+Plugin 'othree/html5.vim'                " html5の追加syntax
+Plugin 'jelera/vim-javascript-syntax'    " JavaScriptの追加syntax
+Plugin 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
+Plugin 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
 call vundle#end() " required !!
 filetype plugin indent on
 
