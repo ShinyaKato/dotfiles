@@ -17,8 +17,9 @@ Plugin 'mattn/emmet-vim'                 " htmlのコーディング支援
 Plugin 'tpope/vim-surround'              " 「テキストを囲うテキスト」オブジェクトを追加
 Plugin 'hail2u/vim-css3-syntax'          " CSS3の追加syntax
 Plugin 'othree/html5.vim'                " html5の追加syntax
-Plugin 'jelera/vim-javascript-syntax'    " JavaScriptの追加syntax
+Plugin 'pangloss/vim-javascript'         " JavaScriptの追加syntax
 Plugin 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
+Plugin 'mxw/vim-jsx'                     " JSXの追加syntax(vim-javascriptに依存)
 Plugin 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
 Plugin 'tpope/vim-fugitive'              " VimからGit操作を可能にする
 call vundle#end() " required !!
@@ -40,7 +41,7 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
 "
 " IndentGuides設定
-let g:indent_guides_enable_on_vim_startup=1 " vimの起動時に自動的にインデントを可視化
+let g:indent_guides_enable_on_vim_startup=1
 
 "
 " vim-rails設定
@@ -66,21 +67,18 @@ aug RailsDictSetting
   au!
 aug END
 
-"
-" mru settings
-let MRU_Auto_Close=1
-let MRU_Window_Height=15
-let MRU_Max_Entries=100
-let MRU_Window_Open_Always=1
-let MRU_Open_File_Use_Tabs=1
-nnoremap R :MRU<CR>
+" JSXの拡張設定
+let g:jsx_ext_required = 0    " .js拡子でも有効にする
 
-"
 " 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)
 set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
 set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
 set cmdheight=2                  " コマンドラインに使われる画面上の行数
 set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
+set statusline=%<%f\%m%r%h%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
+set statusline+=%{fugitive#statusline()}
+set statusline+=%=%l,%c%V%8P
 set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
 set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
 set showcmd                      " 入力中のコマンドを表示する
@@ -104,7 +102,6 @@ syntax on                        " 構文毎に文字色を変化させる
 colorscheme desert               " カラースキーマの指定
 set backspace=2                  " backspaceを有効にする
 set clipboard=unnamed,autoselect " クリップボードを使用
-set statusline=%<%f\%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']'}%{fugitive#statusline()}%=%l,%c%V%8P
 
 "
 " タブまわりのキーバインド
@@ -132,4 +129,33 @@ if has("autocmd")
       \ endif
     augroup END
 endif
+
+"
+" 挿入モード時、ステータスラインの色を変更
+let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
+if has('syntax')
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
+endif
+let s:slhlcmd = ''
+function! s:StatusLine(mode)
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+  endif
+endfunction
+function! s:GetHighlight(hi)
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
+endfunction
 
