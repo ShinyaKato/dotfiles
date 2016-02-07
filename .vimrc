@@ -150,8 +150,6 @@ colorscheme desert               " カラースキーマの指定
 set backspace=2                  " backspaceを有効にする
 set clipboard=unnamed,autoselect " クリップボードを使用
 set nowrap                       " 行を折り返さない
-set spell                        " スペルチェックを有効に
-set spelllang=en,cjk             " 日本語をスペルチェックの対象から外す
 
 "
 " edit .vimrc
@@ -219,28 +217,3 @@ function! s:GetHighlight(hi)
   let hl = substitute(hl, 'xxx', '', '')
   return hl
 endfunction
-
-"
-" コメントをスペルチェックの対象から外す
-fun! s:SpellConf()
-  redir! => syntax
-  silent syntax
-  redir END
-
-  set spell
-
-  if syntax =~? '/<comment\>'
-    syntax spell default
-    syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent containedin=Comment contained
-  else
-    syntax spell toplevel
-    syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent
-  endif
-
-  syntax cluster Spell add=SpellNotAscii,SpellMaybeCode
-endfunc
-
-augroup spell_check
-  autocmd!
-  autocmd BufReadPost,BufNewFile,Syntax * call s:SpellConf()
-augroup END
