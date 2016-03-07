@@ -157,6 +157,11 @@ nnoremap <silent> <Space>vimrc  :tabnew ~/.vimrc<CR>
 nnoremap <silent> <Space>srcvim :source ~/.vimrc<CR>
 
 "
+" Insertモードの<ESC>を<C-j><C-j>にバインド
+inoremap <silent> <C-j><C-j> <ESC>:w<CR>
+inoremap <silent> <C-k><C-k> <ESC>
+
+"
 " <esc><esc>で検索ハイライトを消す
 nnoremap <silent> <ESC><ESC> :noh<CR>
 
