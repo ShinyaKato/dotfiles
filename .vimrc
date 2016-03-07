@@ -33,6 +33,8 @@ Plugin 'h1mesuke/unite-outline'
 Plugin 'basyura/bitly.vim'
 Plugin 'slim-template/vim-slim'
 Plugin 'rking/ag.vim'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'thinca/vim-quickrun'
 call vundle#end() " required !!
 filetype plugin indent on
 
@@ -116,6 +118,9 @@ if executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
+" markdown
+au BufRead,BufNewFile *.md set filetype=markdown
+
 
 " 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)
 set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
@@ -164,6 +169,11 @@ inoremap <silent> <C-k><C-k> <ESC>
 "
 " <esc><esc>で検索ハイライトを消す
 nnoremap <silent> <ESC><ESC> :noh<CR>
+
+"
+" paste
+nnoremap ,i :<C-u>set paste<Return>i
+autocmd InsertLeave * set nopaste
 
 "
 " ウィンドウまわりのキーバインド
