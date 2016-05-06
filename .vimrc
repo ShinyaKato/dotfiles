@@ -174,13 +174,13 @@ filetype plugin indent on
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" key maping
+" commands, key maping, etc...
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
 " edit .vimrc
-nnoremap <silent> <Space>vimrc  :tabnew ~/.vimrc<CR>
-nnoremap <silent> <Space>srcvim :source ~/.vimrc<CR>
+command! -nargs=0 Vimrc :tabnew ~/.vimrc
+command! -nargs=0 Reload :source ~/.vimrc
 
 "
 " Insertモードの<ESC>を<C-j><C-j>にバインド
