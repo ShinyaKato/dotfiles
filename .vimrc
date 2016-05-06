@@ -2,40 +2,47 @@
 " Vundleの設定
 set nocompatible
 filetype off
-set rtp+=~/dotfiles/vimfiles/vundle.vim.git
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'               " Let Vundle manage itself
-Plugin 'git://github.com/Shougo/vimproc'
-Plugin 'Shougo/unite.vim'                " ファイルオープンを便利に
-Plugin 'Shougo/vimfiler.vim'             " ファイラ
-Plugin 'Shougo/neomru.vim'               " Unite.vimで最近使ったファイルを表示できるようにする
-Plugin 'scrooloose/nerdtree'             " ファイルをツリー表示
-Plugin 'tpope/vim-endwise'               " rubyのendを自動保管
-Plugin 'tomtom/tcomment_vim'             " 'Ctrl' + '_'を二回押すとコメントアウト
-Plugin 'nathanaelkane/vim-indent-guides' " インデントを可視化
-Plugin 'vim-scripts/AnsiEsc.vim'         " ログファイルを色付け
-Plugin 'tpope/vim-rails'                 " Railsプロジェクト内を自由に行き来できる
-Plugin 'mattn/emmet-vim'                 " htmlのコーディング支援
-Plugin 'tpope/vim-surround'              " 「テキストを囲うテキスト」オブジェクトを追加
-Plugin 'hail2u/vim-css3-syntax'          " CSS3の追加syntax
-Plugin 'othree/html5.vim'                " html5の追加syntax
-Plugin 'pangloss/vim-javascript'         " JavaScriptの追加syntax
-Plugin 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
-Plugin 'mxw/vim-jsx'                     " JSXの追加syntax(vim-javascriptに依存)
-Plugin 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
-Plugin 'tpope/vim-fugitive'              " VimからGit操作を可能にする
-Plugin 'junegunn/vim-easy-align'         " 整列を簡単にする
-Plugin 'basyura/TweetVim'                " vimでTwitter
-Plugin 'mattn/webapi-vim'
-Plugin 'basyura/twibill.vim'
-Plugin 'tyru/open-browser.vim'
-Plugin 'h1mesuke/unite-outline'
-Plugin 'basyura/bitly.vim'
-Plugin 'slim-template/vim-slim'
-Plugin 'rking/ag.vim'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'thinca/vim-quickrun'
-call vundle#end() " required !!
+set runtimepath^=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundle 'Shougo/vimproc.vim', {
+\   'build': {
+\     'windows': 'tools\\update-dll-mingw',
+\     'cygwin':  'make -f make_cygwin.mak',
+\     'mac':     'make',
+\     'linux':   'make',
+\     'unix':    'gmake',
+\   },
+\ }
+NeoBundle 'Shougo/unite.vim'                " ファイルオープンを便利に
+NeoBundle 'Shougo/vimfiler.vim'             " ファイラ
+NeoBundle 'Shougo/neomru.vim'               " Unite.vimで最近使ったファイルを表示できるようにする
+NeoBundle 'scrooloose/nerdtree'             " ファイルをツリー表示
+NeoBundle 'tpope/vim-endwise'               " rubyのendを自動保管
+NeoBundle 'tomtom/tcomment_vim'             " 'Ctrl' + '_'を二回押すとコメントアウト
+NeoBundle 'nathanaelkane/vim-indent-guides' " インデントを可視化
+NeoBundle 'vim-scripts/AnsiEsc.vim'         " ログファイルを色付け
+NeoBundle 'tpope/vim-rails'                 " Railsプロジェクト内を自由に行き来できる
+NeoBundle 'mattn/emmet-vim'                 " htmlのコーディング支援
+NeoBundle 'tpope/vim-surround'              " 「テキストを囲うテキスト」オブジェクトを追加
+NeoBundle 'hail2u/vim-css3-syntax'          " CSS3の追加syntax
+NeoBundle 'othree/html5.vim'                " html5の追加syntax
+NeoBundle 'pangloss/vim-javascript'         " JavaScriptの追加syntax
+NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
+NeoBundle 'mxw/vim-jsx'                     " JSXの追加syntax(vim-javascriptに依存)
+NeoBundle 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
+NeoBundle 'tpope/vim-fugitive'              " VimからGit操作を可能にする
+NeoBundle 'junegunn/vim-easy-align'         " 整列を簡単にする
+NeoBundle 'basyura/TweetVim'                " vimでTwitter
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'slim-template/vim-slim'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'thinca/vim-quickrun'
+call neobundle#end() " required !!
 filetype plugin indent on
 
 
