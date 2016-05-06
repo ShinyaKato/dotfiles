@@ -1,9 +1,14 @@
 "
-" Vundleの設定
+" Plugins
 set nocompatible
 filetype off
-set runtimepath^=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle/'))
+if has('vim_starting')
+  set rtp+=$HOME/.vim/bundle/neobundle.vim
+endif
+call neobundle#begin(expand('~/.vim/bundle'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" vimproc
 NeoBundle 'Shougo/vimproc.vim', {
 \   'build': {
 \     'windows': 'tools\\update-dll-mingw',
@@ -13,41 +18,50 @@ NeoBundle 'Shougo/vimproc.vim', {
 \     'unix':    'gmake',
 \   },
 \ }
-NeoBundle 'Shougo/unite.vim'                " ファイルオープンを便利に
-NeoBundle 'Shougo/vimfiler.vim'             " ファイラ
-NeoBundle 'Shougo/neomru.vim'               " Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'scrooloose/nerdtree'             " ファイルをツリー表示
-NeoBundle 'tpope/vim-endwise'               " rubyのendを自動保管
-NeoBundle 'tomtom/tcomment_vim'             " 'Ctrl' + '_'を二回押すとコメントアウト
-NeoBundle 'nathanaelkane/vim-indent-guides' " インデントを可視化
-NeoBundle 'vim-scripts/AnsiEsc.vim'         " ログファイルを色付け
-NeoBundle 'tpope/vim-rails'                 " Railsプロジェクト内を自由に行き来できる
-NeoBundle 'mattn/emmet-vim'                 " htmlのコーディング支援
-NeoBundle 'tpope/vim-surround'              " 「テキストを囲うテキスト」オブジェクトを追加
-NeoBundle 'hail2u/vim-css3-syntax'          " CSS3の追加syntax
-NeoBundle 'othree/html5.vim'                " html5の追加syntax
-NeoBundle 'pangloss/vim-javascript'         " JavaScriptの追加syntax
-NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScriptの追加syntax
-NeoBundle 'mxw/vim-jsx'                     " JSXの追加syntax(vim-javascriptに依存)
-NeoBundle 'bronson/vim-trailing-whitespace' " 行末のスペースを可視化
-NeoBundle 'tpope/vim-fugitive'              " VimからGit操作を可能にする
-NeoBundle 'junegunn/vim-easy-align'         " 整列を簡単にする
-NeoBundle 'basyura/TweetVim'                " vimでTwitter
+
+" Unite
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/vimfiler.vim'
+NeoBundle 'Shougo/unite-outline'
+
+NeoBundle 'tpope/vim-fugitive'              " Git
+NeoBundle 'tpope/vim-rails'                 " Rails
+NeoBundle 'thinca/vim-quickrun'             " run code on vim
+
+NeoBundle 'rking/ag.vim'                    " grep search
+NeoBundle 'tpope/vim-surround'              " adding text object 'surroundings'
+NeoBundle 'mattn/emmet-vim'                 " support coding html
+NeoBundle 'junegunn/vim-easy-align'         " support alignment
+NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
+
+" syntax
+NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
+NeoBundle 'othree/html5.vim'                " html5
+NeoBundle 'pangloss/vim-javascript'         " JavaScript
+NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
+NeoBundle 'mxw/vim-jsx'                     " JSX
+NeoBundle 'slim-template/vim-slim'          " slim
+NeoBundle 'plasticboy/vim-markdown'         " Markdown
+
+" visualization
+NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
+NeoBundle 'bronson/vim-trailing-whitespace' " visualize whitespace
+NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
+
+" Twitter on vim
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'basyura/twibill.vim'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'basyura/bitly.vim'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'thinca/vim-quickrun'
-call neobundle#end() " required !!
+NeoBundle 'basyura/TweetVim'
+
+call neobundle#end()
 filetype plugin indent on
 
 
 "
-" Unit.vim
+" unit.vim
 let g:unite_enable_start_insert=1
 noremap <C-P> :Unite buffer<CR>
 noremap <C-N> :Unite -buffer-name=file file<CR>
@@ -57,8 +71,13 @@ au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 "
-" NERDTree
-nnoremap <silent> <space>e :NERDTreeToggle<CR>
+" unite-outline
+let g:unite_data_directory='.vim/bundle/unite-outline/'
+let g:unite_abbr_highlight='normal'
+
+"
+" VimFiler
+nnoremap <silent> <C-e> :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle<CR>
 
 "
 " IndentGuides
@@ -91,7 +110,7 @@ aug END
 " JSX
 let g:jsx_ext_required = 0 " .js拡子でも有効にする
 
-" Eash Align
+" Easy Align
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " <-- default delimiters -->
@@ -175,7 +194,7 @@ inoremap <silent> <C-k><C-k> <ESC>
 
 "
 " <esc><esc>で検索ハイライトを消す
-nnoremap <silent> <ESC><ESC> :noh<CR>
+" nnoremap <silent> <ESC><ESC> :noh<CR>
 
 "
 " paste
