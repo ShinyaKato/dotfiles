@@ -119,7 +119,7 @@ let g:rails_modelines=0
 let g:rails_some_option = 1
 let g:rails_statusline = 1
 let g:rails_syntax = 1
-function! s:SetUpRailsSetting()
+function! SetUpRailsSetting()
   nnoremap <buffer><Space>r :R<CR>
   nnoremap <buffer><Space>a :A<CR>
   nnoremap <buffer><Space>m :Rmodel<Space>
