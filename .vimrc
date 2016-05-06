@@ -52,6 +52,7 @@ endif
 call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+"
 " vimproc
 NeoBundle 'Shougo/vimproc.vim', {
 \   'build': {
@@ -63,71 +64,54 @@ NeoBundle 'Shougo/vimproc.vim', {
 \   },
 \ }
 
+"
+" run code on vim
+NeoBundle 'thinca/vim-quickrun'
+
+"
 " Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/unite-outline'
-
-NeoBundle 'tpope/vim-fugitive'              " Git
-NeoBundle 'tpope/vim-rails'                 " Rails
-NeoBundle 'thinca/vim-quickrun'             " run code on vim
-
-NeoBundle 'rking/ag.vim'                    " grep search
-NeoBundle 'tpope/vim-surround'              " adding text object 'surroundings'
-NeoBundle 'mattn/emmet-vim'                 " support coding html
-NeoBundle 'junegunn/vim-easy-align'         " support alignment
-NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
-
-" syntax
-NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
-NeoBundle 'othree/html5.vim'                " html5
-NeoBundle 'pangloss/vim-javascript'         " JavaScript
-NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
-NeoBundle 'mxw/vim-jsx'                     " JSX
-NeoBundle 'slim-template/vim-slim'          " slim
-NeoBundle 'plasticboy/vim-markdown'         " Markdown
-
-" visualization
-NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
-NeoBundle 'bronson/vim-trailing-whitespace' " visualize whitespace
-NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
-
-" Twitter on vim
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'basyura/twibill.vim'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'basyura/bitly.vim'
-NeoBundle 'basyura/TweetVim'
-
-call neobundle#end()
-filetype plugin indent on
-
-"
-" unit.vim
+NeoBundle 'rking/ag.vim'
+" basic settings
 let g:unite_enable_start_insert=1
-noremap <C-P> :Unite buffer<CR>
-noremap <C-N> :Unite -buffer-name=file file<CR>
-noremap <C-Z> :Unite file_mru<CR>
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-
-"
-" unite-outline
+" outline
 let g:unite_data_directory='.vim/bundle/unite-outline/'
 let g:unite_abbr_highlight='normal'
+" ag.vim
+let g:unite_enable_start_insert = 1
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+" Exit Unite
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+" key mapping
+nmap , [unite]
+nnoremap <silent> [unite]p     :Unite buffer<CR>
+nnoremap <silent> [unite]n     :Unite -buffer-name=file file<CR>
+nnoremap <silent> [unite]<S-n> :UniteWithBufferDir file -buffer-name=file<CR>
+nnoremap <silent> [unite]z     :Unite file_mru<CR>
+nnoremap <silent> [unite]o     :Unite outline -vertical -winwidth=40 -direction=botright<CR>
+nnoremap <silent> [unite]g     :Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> [unite]<S-g> :Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> [unite]r     :UniteResume search-buffer<CR>
+" nnoremap <silent> [unite]e     :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle<CR>
 
 "
-" VimFiler
-nnoremap <silent> <C-e> :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle<CR>
+" Git
+NeoBundle 'tpope/vim-fugitive'
 
 "
-" IndentGuides
-let g:indent_guides_enable_on_vim_startup=1
-
-"
-" vim-rails
+" Rails
+NeoBundle 'tpope/vim-rails'
+" basic settings
 let g:rails_default_file='config/database.yml'
 let g:rails_level = 4
 let g:rails_mappings=1
@@ -135,7 +119,7 @@ let g:rails_modelines=0
 let g:rails_some_option = 1
 let g:rails_statusline = 1
 let g:rails_syntax = 1
-function! SetUpRailsSetting()
+function! s:SetUpRailsSetting()
   nnoremap <buffer><Space>r :R<CR>
   nnoremap <buffer><Space>a :A<CR>
   nnoremap <buffer><Space>m :Rmodel<Space>
@@ -150,32 +134,43 @@ aug RailsDictSetting
   au!
 aug END
 
-" JSX
-let g:jsx_ext_required = 0 " .js拡子でも有効にする
-
-" Easy Align
+"
+" support coding
+NeoBundle 'tpope/vim-surround'              " adding text object 'surroundings'
+NeoBundle 'mattn/emmet-vim'                 " support coding html
+NeoBundle 'junegunn/vim-easy-align'         " support alignment
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
 
-" ag.vim + unite.vim
-let g:unite_enable_start_insert = 1
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
-" grep検索
-nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-" カーソル位置の単語をgrep検索
-nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-" grep検索結果の再呼出
-nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
-" unite grep に ag(The Silver Searcher) を使う
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
-endif
-
-" markdown
+"
+" syntax
+NeoBundle 'plasticboy/vim-markdown'         " Markdown
+NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
+NeoBundle 'othree/html5.vim'                " html5
+NeoBundle 'slim-template/vim-slim'          " slim
+NeoBundle 'pangloss/vim-javascript'         " JavaScript
+NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
+NeoBundle 'mxw/vim-jsx'                     " JSX
+let g:jsx_ext_required = 0
 au BufRead,BufNewFile *.md set filetype=markdown
+
+"
+" visualization
+NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
+let g:indent_guides_enable_on_vim_startup=1
+NeoBundle 'bronson/vim-trailing-whitespace' " visualize whitespace
+NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
+
+" Twitter on vim
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'basyura/TweetVim'
+
+call neobundle#end()
+filetype plugin indent on
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
