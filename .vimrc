@@ -1,6 +1,50 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" basic configs
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 "
-" Plugins
+" 参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f
 set nocompatible
+set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
+set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
+set cmdheight=2                  " コマンドラインに使われる画面上の行数
+set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
+set statusline=%<%f\%m%r%h%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
+set statusline+=%{fugitive#statusline()}
+set statusline+=%=%l,%c%V%8P
+set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
+set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
+set showcmd                      " 入力中のコマンドを表示する
+set smartcase                    " 小文字のみで検索したときに大文字小文字を無視する
+set hlsearch                     " 検索結果をハイライト表示する
+set background=dark              " 暗い背景色に合わせた配色にする
+set expandtab                    " タブ入力を複数の空白入力に置き換える
+set incsearch                    " 検索ワードの最初の文字を入力した時点で検索を開始する
+set hidden                       " 保存されていないファイルがあるときでも別のファイルを開けるようにする
+set list                         " 不可視文字を表示す
+set listchars=tab:>\ ,extends:<  " タブと行の続きを可視化する
+set number                       " 行番号を表示する
+set showmatch                    " 対応する括弧やブレースを表示する
+set autoindent                   " 改行時に前の行のインデントを継続する
+set smartindent                  " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set tabstop=2                    " タブ文字の表示幅
+set shiftwidth=2                 " Vimが挿入するインデントの幅
+set smarttab                     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
+syntax on                        " 構文毎に文字色を変化させる
+colorscheme desert               " カラースキーマの指定
+set backspace=2                  " backspaceを有効にする
+set clipboard=unnamed,autoselect " クリップボードを使用
+set nowrap                       " 行を折り返さない
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"
+" Plugins Instllation
 filetype off
 if has('vim_starting')
   set rtp+=$HOME/.vim/bundle/neobundle.vim
@@ -59,7 +103,6 @@ NeoBundle 'basyura/TweetVim'
 call neobundle#end()
 filetype plugin indent on
 
-
 "
 " unit.vim
 let g:unite_enable_start_insert=1
@@ -113,19 +156,6 @@ let g:jsx_ext_required = 0 " .js拡子でも有効にする
 " Easy Align
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-" <-- default delimiters -->
-" let s:easy_align_delimiters_default = {
-" \  ' ': { 'pattern': ' ',  'left_margin': 0, 'right_margin': 0, 'stick_to_left': 0 },
-" \  '=': { 'pattern': '===\|<=>\|\(&&\|||\|<<\|>>\)=\|=\~[#?]\?\|=>\|[:+/*!%^=><&|.-]\?=[#?]\?', 'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 },
-" \  ':': { 'pattern': ':',  'left_margin': 0, 'right_margin': 1, 'stick_to_left': 1 },
-" \  ',': { 'pattern': ',',  'left_margin': 0, 'right_margin': 1, 'stick_to_left': 1 },
-" \  '|': { 'pattern': '|',  'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 },
-" \  '.': { 'pattern': '\.', 'left_margin': 0, 'right_margin': 0, 'stick_to_left': 0 },
-" \  '#': { 'pattern': '#\+', 'delimiter_align': 'l', 'ignore_groups': ['!Comment']  },
-" \  '&': { 'pattern': '\\\@<!&\|\\\\', 'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 },
-" \  '{': { 'pattern': '(\@<!{', 'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 },
-" \  '}': { 'pattern': '}',  'left_margin': 1, 'right_margin': 0, 'stick_to_left': 0 }
-" \ }
 
 " ag.vim + unite.vim
 let g:unite_enable_start_insert = 1
@@ -148,39 +178,9 @@ endif
 au BufRead,BufNewFile *.md set filetype=markdown
 
 
-" 基本設定 (参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f)
-set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
-set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
-set cmdheight=2                  " コマンドラインに使われる画面上の行数
-set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
-set statusline=%<%f\%m%r%h%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
-set statusline+=%{fugitive#statusline()}
-set statusline+=%=%l,%c%V%8P
-set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
-set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
-set showcmd                      " 入力中のコマンドを表示する
-set smartcase                    " 小文字のみで検索したときに大文字小文字を無視する
-set hlsearch                     " 検索結果をハイライト表示する
-set background=dark              " 暗い背景色に合わせた配色にする
-set expandtab                    " タブ入力を複数の空白入力に置き換える
-set incsearch                    " 検索ワードの最初の文字を入力した時点で検索を開始する
-set hidden                       " 保存されていないファイルがあるときでも別のファイルを開けるようにする
-set list                         " 不可視文字を表示す
-set listchars=tab:>\ ,extends:<  " タブと行の続きを可視化する
-set number                       " 行番号を表示する
-set showmatch                    " 対応する括弧やブレースを表示する
-set autoindent                   " 改行時に前の行のインデントを継続する
-set smartindent                  " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set tabstop=2                    " タブ文字の表示幅
-set shiftwidth=2                 " Vimが挿入するインデントの幅
-set smarttab                     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
-set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
-syntax on                        " 構文毎に文字色を変化させる
-colorscheme desert               " カラースキーマの指定
-set backspace=2                  " backspaceを有効にする
-set clipboard=unnamed,autoselect " クリップボードを使用
-set nowrap                       " 行を折り返さない
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" key maping
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
 " edit .vimrc
@@ -193,13 +193,23 @@ inoremap <silent> <C-j><C-j> <ESC>:w<CR>
 inoremap <silent> <C-k><C-k> <ESC>
 
 "
-" <esc><esc>で検索ハイライトを消す
-" nnoremap <silent> <ESC><ESC> :noh<CR>
+" 検索ハイライトを消す
+nnoremap <silent> <C-l><C-l> :noh<CR>
 
 "
-" paste
+" Insert with no paste
 nnoremap ,i :<C-u>set paste<Return>i
 autocmd InsertLeave * set nopaste
+
+" 行数の表示をtoggle
+function! s:Setnumber()
+  if &number
+    setlocal nonumber
+  else
+    setlocal number
+  endif
+endfunction
+nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
 
 "
 " ウィンドウまわりのキーバインド
@@ -217,17 +227,35 @@ nnoremap <silent> <TAB>5     :tabn 5<CR>
 nnoremap <silent> <TAB><TAB> :tabnext<CR>
 nnoremap <silent> <TAB>k     :tabnext<CR>
 nnoremap <silent> <TAB>j     :tabprevious<CR>
+" タブの移動
+function! s:MoveTabpage(num)
+  if type(a:num) != type(0)
+    return
+  endif
+  let pos = tabpagenr() - 1 + a:num
+  let tabcount = tabpagenr("$")
+  if pos < 0
+    let pos = tabcount - 1
+  elseif pos >= tabcount
+    let pos = 0
+  endif
+  execute "tabmove " . pos
+endfunction
+nnoremap <silent> <TAB><Right> :call MoveTabpage(1)<CR>
+nnoremap <silent> <TAB><Left>  :call MoveTabpage(-1)<CR>
 
 "
 " ファイルを閉じるときにカーソル位置を記憶
 if has("autocmd")
   augroup redhat
-    autocmd BufRead *.txt set tw=78 " In text files, always limit the width of text to 78 characters
-    autocmd BufReadPost *           " When editing a file, always jump to the last cursor position
-      \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-      \   exe "normal! g'\"" |
-      \ endif
-    augroup END
+    " In text files, always limit the width of text to 78 characters
+    autocmd BufRead *.txt set tw=78
+    " When editing a file, always jump to the last cursor position
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+  augroup END
 endif
 
 "
