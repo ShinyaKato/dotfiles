@@ -67,6 +67,14 @@ NeoBundle 'Shougo/vimproc.vim', {
 "
 " run code on vim
 NeoBundle 'thinca/vim-quickrun'
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter/buffer/split" : "vertical :botright",
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60
+\   },
+\}
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 "
 " Unite
@@ -178,9 +186,10 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
-" edit .vimrc
+" edit .vimrc / help
 command! -nargs=0 Vimrc :tabnew ~/.vimrc
 command! -nargs=0 Reload :source ~/.vimrc
+au FileType help nnoremap <silent> <Esc><Esc> :q<CR>
 
 "
 " Insertモードの<ESC>を<C-j><C-j>にバインド
@@ -223,7 +232,7 @@ nnoremap <silent> <TAB><TAB> :tabnext<CR>
 nnoremap <silent> <TAB>k     :tabnext<CR>
 nnoremap <silent> <TAB>j     :tabprevious<CR>
 " タブの移動
-function! s:MoveTabpage(num)
+function! MoveTabpage(num)
   if type(a:num) != type(0)
     return
   endif
@@ -236,6 +245,7 @@ function! s:MoveTabpage(num)
   endif
   execute "tabmove " . pos
 endfunction
+command! -nargs=1 MoveTabpage :call MoveTabpage(<f-args>)
 nnoremap <silent> <TAB><Right> :call MoveTabpage(1)<CR>
 nnoremap <silent> <TAB><Left>  :call MoveTabpage(-1)<CR>
 
@@ -281,3 +291,80 @@ function! s:GetHighlight(hi)
   let hl = substitute(hl, 'xxx', '', '')
   return hl
 endfunction
+
+"
+" クォーテーション/括弧を自動補完
+let g:enable_auto_complete = 1
+function! AutoCompleteToggle()
+  if g:enable_auto_complete == 0
+    silent let g:enable_auto_complete = 1
+    echo "enabled AutoComplete"
+  else
+    silent let g:enable_auto_complete = 0
+    echo "disabled AutoComplete"
+  endif
+endfunction
+command! -nargs=0 AutoCompleteToggle :call AutoCompleteToggle()
+" クォーテーション
+function! AutoCompleteQuote(char)
+  if g:enable_auto_complete != 0
+    if matchstr(getline('.'), '.', col('.')-1, 1) != a:char
+      call feedkeys(a:char . a:char . "\<Left>", "n")
+    else
+      call feedkeys("\<Right>", "n")
+    endif
+  else
+    call feedkeys(a:char, "n")
+  endif
+  return ""
+endfunction
+inoremap <silent> ' <C-R>=AutoCompleteQuote("'")<CR>
+inoremap <silent> " <C-R>=AutoCompleteQuote("\"")<CR>
+inoremap <silent> ` <C-R>=AutoCompleteQuote("`")<CR>
+" 括弧
+function! AutoCompleteBracket(char, initial, final)
+  if g:enable_auto_complete != 0
+    if a:char == a:initial
+      call feedkeys(a:initial . a:final . "\<Left>", "n")
+    elseif a:char == a:final
+      if matchstr(getline('.'), '.', col('.')-1, 1) == a:final
+        call feedkeys("\<Right>", "n")
+      else
+        call feedkeys(a:final, "n")
+      end
+    else
+      echoerr "First arguments should be one of latter two arguments. See key mapping using 'AutoCompleteBracket(\"" . a:char . "\", \"" . a:initial . "\", \"" . a:final . "\")'"
+    end
+  else
+    call feedkeys(a:char, "n")
+  end
+  return ""
+endfunction
+inoremap <silent> ( <C-R>=AutoCompleteBracket("(", "(", ")")<CR>
+inoremap <silent> ) <C-R>=AutoCompleteBracket(")", "(", ")")<CR>
+inoremap <silent> { <C-R>=AutoCompleteBracket("{", "{", "}")<CR>
+inoremap <silent> } <C-R>=AutoCompleteBracket("}", "{", "}")<CR>
+inoremap <silent> [ <C-R>=AutoCompleteBracket("[", "[", "]")<CR>
+inoremap <silent> ] <C-R>=AutoCompleteBracket("]", "[", "]")<CR>
+au FileType html inoremap <silent> < <C-R>=AutoCompleteBracket("<", "<", ">")<CR>
+au FileType html inoremap <silent> > <C-R>=AutoCompleteBracket(">", "<", ">")<CR>
+" 括弧の中でEnterした時にインデントを整形する
+let g:auto_complete_indented_brackets = [
+\  { "initial" : "(", "final" : ")" },
+\  { "initial" : "{", "final" : "}" },
+\  { "initial" : "[", "final" : "]" }
+\]
+function! AutoCompleteIndentBrackets()
+  for bracket in g:auto_complete_indented_brackets
+    let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
+    let current = matchstr(getline('.'), '.', col('.')-1 , 1)
+    if prev == bracket.initial && current == bracket.final
+      " call feedkeys("\<Right>\<BS>\<CR>", "n")
+      call feedkeys("\<CR>\<CR>\<Up>\<Tab>", "n")
+      return ""
+    endif
+  endfor
+  call feedkeys("\<CR>", "n")
+  return ""
+endfunction
+inoremap <silent> <CR> <C-R>=AutoCompleteIndentBrackets()<CR>
