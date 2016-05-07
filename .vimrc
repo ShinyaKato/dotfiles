@@ -206,7 +206,7 @@ nnoremap ,i :<C-u>set paste<Return>i
 autocmd InsertLeave * set nopaste
 
 " 行数の表示をtoggle
-function! s:Setnumber()
+function! Setnumber()
   if &number
     setlocal nonumber
   else
