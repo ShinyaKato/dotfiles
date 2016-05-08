@@ -348,26 +348,53 @@ inoremap <silent> [ <C-R>=AutoCompleteBracket("[", "[", "]")<CR>
 inoremap <silent> ] <C-R>=AutoCompleteBracket("]", "[", "]")<CR>
 au FileType html inoremap <silent> < <C-R>=AutoCompleteBracket("<", "<", ">")<CR>
 au FileType html inoremap <silent> > <C-R>=AutoCompleteBracket(">", "<", ">")<CR>
-" 括弧の中でEnterした時にインデントを整形する
+" 空の括弧の中でenterした時にインデントを整形する
 let g:auto_complete_indented_brackets = [
 \  { "initial" : "(", "final" : ")" },
 \  { "initial" : "{", "final" : "}" },
 \  { "initial" : "[", "final" : "]" }
 \]
 function! AutoCompleteIndentBrackets()
-  for bracket in g:auto_complete_indented_brackets
-    let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
-    let current = matchstr(getline('.'), '.', col('.')-1 , 1)
-    if prev == bracket.initial && current == bracket.final
-      " call feedkeys("\<Right>\<BS>\<CR>", "n")
-      call feedkeys("\<CR>\<CR>\<Up>\<Tab>", "n")
-      return ""
-    endif
-  endfor
+  if g:enable_auto_complete != 0
+    for bracket in g:auto_complete_indented_brackets
+      let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
+      let current = matchstr(getline('.'), '.', col('.')-1 , 1)
+      if prev == bracket.initial && current == bracket.final
+        " call feedkeys("\<Right>\<BS>\<CR>", "n")
+        call feedkeys("\<CR>\<CR>\<Up>\<Tab>", "n")
+        return ""
+      endif
+    endfor
+  endif
   call feedkeys("\<CR>", "n")
   return ""
 endfunction
 inoremap <silent> <CR> <C-R>=AutoCompleteIndentBrackets()<CR>
+" 空の補完文字の中でdeleteした時に閉じクォート/閉じ括弧も削除する
+let g:auto_complete_delete_pairs = [
+\  { "initial" : "(",  "final" : ")"  },
+\  { "initial" : "{",  "final" : "}"  },
+\  { "initial" : "[",  "final" : "]"  },
+\  { "initial" : "<",  "final" : ">"  },
+\  { "initial" : "\"", "final" : "\"" },
+\  { "initial" : "'",  "final" : "."  },
+\  { "initial" : "`",  "final" : "`"  }
+\]
+function! AutoCompleteDeletePair()
+  if g:enable_auto_complete != 0
+    for pair in g:auto_complete_delete_pairs
+      let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
+      let current = matchstr(getline('.'), '.', col('.')-1 , 1)
+      if prev == pair.initial && current == pair.final
+        call feedkeys("\<Right>\<BS>\<BS>", "n")
+        return ""
+      endif
+    endfor
+  endif
+  call feedkeys("\<BS>", "n")
+  return ""
+endfunction
+inoremap <silent> <BS> <C-R>=AutoCompleteDeletePair()<CR>
 
 "
 " PHP: include HTML indentation
