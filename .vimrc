@@ -346,8 +346,8 @@ inoremap <silent> { <C-R>=AutoCompleteBracket("{", "{", "}")<CR>
 inoremap <silent> } <C-R>=AutoCompleteBracket("}", "{", "}")<CR>
 inoremap <silent> [ <C-R>=AutoCompleteBracket("[", "[", "]")<CR>
 inoremap <silent> ] <C-R>=AutoCompleteBracket("]", "[", "]")<CR>
-au FileType html inoremap <silent> < <C-R>=AutoCompleteBracket("<", "<", ">")<CR>
-au FileType html inoremap <silent> > <C-R>=AutoCompleteBracket(">", "<", ">")<CR>
+au FileType html inoremap <silent> <buffer> < <C-R>=AutoCompleteBracket("<", "<", ">")<CR>
+au FileType html inoremap <silent> <buffer> > <C-R>=AutoCompleteBracket(">", "<", ">")<CR>
 " 空の括弧の中でenterした時にインデントを整形する
 let g:auto_complete_indented_brackets = [
 \  { "initial" : "(", "final" : ")" },
