@@ -191,7 +191,7 @@ filetype plugin indent on
 " edit .vimrc / help
 command! -nargs=0 Vimrc :tabnew ~/.vimrc
 command! -nargs=0 Reload :source ~/.vimrc
-au FileType help nnoremap <silent> <Esc><Esc> :q<CR>
+au FileType help nnoremap <silent> <buffer> <Esc><Esc> :q<CR>
 
 "
 " Insertモードの<ESC>を<C-j><C-j>にバインド
