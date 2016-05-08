@@ -4,7 +4,7 @@
 
 "
 " 参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f
-set nocompatible
+set nocompatible                 " vi互換モードをOffに
 set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
 set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
 set cmdheight=2                  " コマンドラインに使われる画面上の行数
@@ -44,7 +44,7 @@ set nowrap                       " 行を折り返さない
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
-" Plugins Instllation
+" Plugins Instllation with NeoBundle
 filetype off
 if has('vim_starting')
   set rtp+=$HOME/.vim/bundle/neobundle.vim
@@ -65,23 +65,11 @@ NeoBundle 'Shougo/vimproc.vim', {
 \ }
 
 "
-" run code on vim
-NeoBundle 'thinca/vim-quickrun'
-let g:quickrun_config = {
-\   "_" : {
-\       "outputter/buffer/split" : "vertical :botright",
-\       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 60
-\   },
-\}
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-
-"
 " Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/unite-outline'
+" NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'rking/ag.vim'
 " basic settings
 let g:unite_enable_start_insert=1
@@ -111,6 +99,18 @@ nnoremap <silent> [unite]g     :Unite grep:. -buffer-name=search-buffer<CR>
 nnoremap <silent> [unite]<S-g> :Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
 nnoremap <silent> [unite]r     :UniteResume search-buffer<CR>
 " nnoremap <silent> [unite]e     :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle<CR>
+
+"
+" run code on vim
+NeoBundle 'thinca/vim-quickrun'
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter/buffer/split" : "vertical :botright",
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60
+\   },
+\}
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 "
 " Git
@@ -154,14 +154,15 @@ NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
 "
 " syntax
 NeoBundle 'plasticboy/vim-markdown'         " Markdown
-NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
+au BufRead,BufNewFile *.md set filetype=markdown
 NeoBundle 'othree/html5.vim'                " html5
-NeoBundle 'slim-template/vim-slim'          " slim
+NeoBundle 'slim-template/vim-slim'          " html.slim
+NeoBundle 'jwalton512/vim-blade'            " blade.php
+NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
 NeoBundle 'pangloss/vim-javascript'         " JavaScript
 NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
 NeoBundle 'mxw/vim-jsx'                     " JSX
 let g:jsx_ext_required = 0
-au BufRead,BufNewFile *.md set filetype=markdown
 
 "
 " visualization
@@ -194,7 +195,6 @@ au FileType help nnoremap <silent> <Esc><Esc> :q<CR>
 "
 " Insertモードの<ESC>を<C-j><C-j>にバインド
 inoremap <silent> <C-j><C-j> <ESC>:w<CR>
-inoremap <silent> <C-k><C-k> <ESC>
 
 "
 " 検索ハイライトを消す
@@ -368,3 +368,8 @@ function! AutoCompleteIndentBrackets()
   return ""
 endfunction
 inoremap <silent> <CR> <C-R>=AutoCompleteIndentBrackets()<CR>
+
+"
+" PHP: include HTML indentation
+au FileType php,blade runtime! indent/html.vim
+
