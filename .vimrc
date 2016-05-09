@@ -378,7 +378,7 @@ let g:auto_complete_delete_pairs = [
 \  { "initial" : "[",  "final" : "]"  },
 \  { "initial" : "<",  "final" : ">"  },
 \  { "initial" : "\"", "final" : "\"" },
-\  { "initial" : "'",  "final" : "."  },
+\  { "initial" : "'",  "final" : "'"  },
 \  { "initial" : "`",  "final" : "`"  }
 \]
 function! AutoCompleteDeletePair()
