@@ -106,12 +106,11 @@ nnoremap <silent> [unite]r     :UniteResume search-buffer<CR>
 NeoBundle 'thinca/vim-quickrun'
 let g:quickrun_config = {
 \   "_" : {
-\       "outputter/buffer/split" : "vertical :botright",
-\       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 60
+\       "outputter/buffer/split" : "vertical :botright"
 \   },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+au FileType quickrun setlocal wrap
 
 "
 " Git
