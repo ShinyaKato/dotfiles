@@ -111,7 +111,9 @@ let g:quickrun_config = {
 \       "runner/vimproc/updatetime" : 60,
 \   },
 \   "es2015" : {
-\       "exec" : "babel %o %s:p | xargs -0 node -p",
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60,
+\       "exec" : "babel --presets es2015 %o %s:p | xargs -0 node -p",
 \   },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
