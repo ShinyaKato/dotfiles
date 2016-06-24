@@ -115,6 +115,7 @@ let g:quickrun_config = {
 \   },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+au FileType quickrun setlocal wrap
 
 "
 " Git
@@ -440,4 +441,5 @@ function! EnablePhpHtmlIndent()
   setlocal indentkeys+=<>>
 endfunction
 au FileType php,blade call EnablePhpHtmlIndent()"
+
 
