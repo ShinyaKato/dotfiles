@@ -108,7 +108,10 @@ let g:quickrun_config = {
 \   "_" : {
 \       "outputter/buffer/split" : "vertical :botright",
 \       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 60
+\       "runner/vimproc/updatetime" : 60,
+\   },
+\   "es2015" : {
+\       "exec" : "babel %o %s:p | xargs -0 node -p",
 \   },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
