@@ -19,3 +19,22 @@ git clone https://github.com/ShinyaKato/dotfiles.git ~/dotfiles
 
 linux:   `ln -s ~/dotfiles/.vimrc ~/.vimrc`
 windows: `ln -s ~/dotfiles/.vimrc /usr/share/vim/.vimrc`
+
+4. vimのインストール
+
+Ubuntsu:
+`sudo apt-get update`
+`sudo apt-get install vim`
+
+CentOS:
+`sudo yum update`
+`sudo yum install vim`
+
+Mac:
+`sudo brew update`
+`sudo brew install vim`
+
+5. NeoBundleInstallする
+
+`$ vim ~/.vimrc`
+`:NeoBundleInstall`
