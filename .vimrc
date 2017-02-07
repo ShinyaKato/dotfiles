@@ -170,6 +170,7 @@ NeoBundle 'pangloss/vim-javascript'         " JavaScript
 NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
 NeoBundle 'mxw/vim-jsx'                     " JSX
 let g:jsx_ext_required = 0
+NeoBundle 'leafgarland/typescript-vim'      " TypeScript
 
 "
 " visualization
