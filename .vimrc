@@ -157,6 +157,8 @@ NeoBundle 'junegunn/vim-easy-align'         " support alignment
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
+NeoBundle 'dhruvasagar/vim-table-mode'      " table format
+au FileType markdown let g:table_mode_corner="|"
 
 "
 " syntax
@@ -222,6 +224,9 @@ function! Setnumber()
   endif
 endfunction
 nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
+
+" TableModeをToggle
+nnoremap <silent> <C-t> :TableModeToggle<CR>i
 
 "
 " ウィンドウまわりのキーバインド
@@ -443,6 +448,4 @@ function! EnablePhpHtmlIndent()
   setlocal indentexpr=GetPhpHtmlIndent(v:lnum)
   setlocal indentkeys+=<>>
 endfunction
-au FileType php,blade call EnablePhpHtmlIndent()"
-
-
+au FileType php,blade call EnablePhpHtmlIndent()
