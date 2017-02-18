@@ -188,6 +188,9 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'basyura/bitly.vim'
 NeoBundle 'basyura/TweetVim'
 
+" editor config plugin
+NeoBundle 'editorconfig/editorconfig-vim'
+
 call neobundle#end()
 filetype plugin indent on
 
