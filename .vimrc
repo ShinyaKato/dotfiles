@@ -157,6 +157,8 @@ NeoBundle 'junegunn/vim-easy-align'         " support alignment
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
+NeoBundle 'dhruvasagar/vim-table-mode'      " table format
+au FileType markdown let g:table_mode_corner="|"
 
 "
 " syntax
@@ -170,6 +172,7 @@ NeoBundle 'pangloss/vim-javascript'         " JavaScript
 NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
 NeoBundle 'mxw/vim-jsx'                     " JSX
 let g:jsx_ext_required = 0
+NeoBundle 'leafgarland/typescript-vim'      " TypeScript
 
 "
 " visualization
@@ -184,6 +187,9 @@ NeoBundle 'basyura/twibill.vim'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'basyura/bitly.vim'
 NeoBundle 'basyura/TweetVim'
+
+" editor config plugin
+NeoBundle 'editorconfig/editorconfig-vim'
 
 call neobundle#end()
 filetype plugin indent on
@@ -221,6 +227,9 @@ function! Setnumber()
   endif
 endfunction
 nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
+
+" TableModeをToggle
+nnoremap <silent> <C-t> :TableModeToggle<CR>i
 
 "
 " ウィンドウまわりのキーバインド
@@ -442,6 +451,4 @@ function! EnablePhpHtmlIndent()
   setlocal indentexpr=GetPhpHtmlIndent(v:lnum)
   setlocal indentkeys+=<>>
 endfunction
-au FileType php,blade call EnablePhpHtmlIndent()"
-
-
+au FileType php,blade call EnablePhpHtmlIndent()
