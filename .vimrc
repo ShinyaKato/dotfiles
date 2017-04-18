@@ -115,9 +115,12 @@ let g:quickrun_config = {
 \       "runner/vimproc/updatetime" : 60,
 \       "exec" : "babel --presets es2015 %o %s:p | xargs -0 node -p",
 \   },
+\   "rspec" : {
+\       "type": "rspec",
+\       "command": "rspec",
+\       "cmdopt": "-c -fd --tty",
+\   },
 \}
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-au FileType quickrun setlocal wrap
 
 "
 " Git
@@ -452,3 +455,14 @@ function! EnablePhpHtmlIndent()
   setlocal indentkeys+=<>>
 endfunction
 au FileType php,blade call EnablePhpHtmlIndent()
+
+"
+" quickrun rspec
+function! RSpecQuickrun()
+  let b:quickrun_config = { 'type' : 'rspec' }
+endfunction
+autocmd BufReadPost *_spec.rb call RSpecQuickrun()
+augroup quickrun
+  autocmd!
+  autocmd FileType quickrun AnsiEsc
+augroup END
