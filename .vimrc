@@ -210,7 +210,7 @@ au FileType help nnoremap <silent> <buffer> <Esc><Esc> :q<CR>
 
 "
 " Insertモードの<ESC>を<C-j><C-j>にバインド
-inoremap <silent> <C-j><C-j> <ESC>:w<CR>
+inoremap <silent> <C-j><C-j> <ESC>
 
 "
 " 検索ハイライトを消す
