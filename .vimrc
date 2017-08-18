@@ -108,21 +108,20 @@ NeoBundle 'thinca/vim-quickrun'
 let g:quickrun_config = {
 \   "_" : {
 \       "outputter/buffer/split" : "vertical :botright",
-\   },
-\   "es2015" : {
 \       "runner" : "vimproc",
-\       "exec" : "babel --presets es2015 %o %s:p | xargs -0 node -p",
+\       "runner/vimproc/updatetime" : 10,
+\       "runner/vimproc/sleep" : 3000,
+\       "hook/time/enable" : 1
+\   },
+\   "cpp" : {
+\       "command" : "g++",
+\       "cmdopt" : "-std=c++14"
 \   },
 \   "rspec" : {
 \       "type": "rspec",
 \       "command": "rspec",
 \       "cmdopt": "-c -fd --tty",
-\   },
-\   "ocaml" : {
-\       "runner" : "vimproc",
-\       "command" : "ocaml",
-\       "exec" : "%c %o < %s",
-\   },
+\   }
 \}
 
 "
