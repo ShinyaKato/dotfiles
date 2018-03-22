@@ -169,6 +169,7 @@ au FileType markdown let g:table_mode_corner="|"
 " syntax
 NeoBundle 'plasticboy/vim-markdown'         " Markdown
 au BufRead,BufNewFile *.md set filetype=markdown
+let g:vim_markdown_folding_disabled=1
 NeoBundle 'othree/html5.vim'                " html5
 NeoBundle 'slim-template/vim-slim'          " html.slim
 NeoBundle 'jwalton512/vim-blade'            " blade.php
