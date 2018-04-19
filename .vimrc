@@ -10,10 +10,6 @@ set noswapfile                   " スワップファイルは使わない(と�
 set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
 set cmdheight=2                  " コマンドラインに使われる画面上の行数
 set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
-set statusline=%<%f\%m%r%h%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
-set statusline+=%{fugitive#statusline()}
-set statusline+=%=%l,%c%V%8P
 set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
 set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
 set showcmd                      " 入力中のコマンドを表示する
@@ -33,13 +29,18 @@ set tabstop=2                    " タブ文字の表示幅
 set shiftwidth=2                 " Vimが挿入するインデントの幅
 set smarttab                     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
 set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
-syntax on                        " 構文毎に文字色を変化させる
-colorscheme desert               " カラースキーマの指定
 set backspace=2                  " backspaceを有効にする
 set clipboard=unnamed,autoselect " クリップボードを使用
 set nowrap                       " 行を折り返さない
 set visualbell t_vb=             " ビープ音/ビジュアルベルを無効化
 
+set statusline=%<%f\%m%r%h%w
+set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
+set statusline+=%{fugitive#statusline()}
+set statusline+=%=%l,%c%V%8P
+
+syntax on          " 構文毎に文字色を変化させる
+colorscheme desert " カラースキーマの指定
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
