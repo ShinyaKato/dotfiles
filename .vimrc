@@ -187,6 +187,8 @@ NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
 let g:indent_guides_enable_on_vim_startup=1
 NeoBundle 'bronson/vim-trailing-whitespace' " visualize whitespace
 NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
+NeoBundle 'luochen1990/rainbow'             " coloring parentheses
+let g:rainbow_active = 1
 
 " Twitter on vim
 NeoBundle 'mattn/webapi-vim'
