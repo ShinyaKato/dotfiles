@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic configs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -71,14 +71,9 @@ NeoBundle 'Shougo/vimproc.vim', {
 " Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/unite-outline'
-" NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'rking/ag.vim'
 " basic settings
 let g:unite_enable_start_insert=1
-" outline
-let g:unite_data_directory='.vim/bundle/unite-outline/'
-let g:unite_abbr_highlight='normal'
 " ag.vim
 let g:unite_enable_start_insert = 1
 let g:unite_enable_ignore_case = 1
@@ -92,38 +87,11 @@ endif
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 " key mapping
-nmap , [unite]
-nnoremap <silent> [unite]p     :Unite buffer<CR>
-nnoremap <silent> [unite]n     :Unite -buffer-name=file file<CR>
-nnoremap <silent> [unite]<S-n> :UniteWithBufferDir file -buffer-name=file<CR>
-nnoremap <silent> [unite]z     :Unite file_mru<CR>
-nnoremap <silent> [unite]o     :Unite outline -vertical -winwidth=40 -direction=botright<CR>
-nnoremap <silent> [unite]g     :Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> [unite]<S-g> :Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-nnoremap <silent> [unite]r     :UniteResume search-buffer<CR>
-" nnoremap <silent> [unite]e     :VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle<CR>
-
-"
-" run code on vim
-NeoBundle 'thinca/vim-quickrun'
-let g:quickrun_config = {
-\   "_" : {
-\       "outputter/buffer/split" : "vertical :botright",
-\       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 10,
-\       "runner/vimproc/sleep" : 3000,
-\       "hook/time/enable" : 1
-\   },
-\   "cpp" : {
-\       "command" : "g++",
-\       "cmdopt" : "-std=c++14"
-\   },
-\   "rspec" : {
-\       "type": "rspec",
-\       "command": "rspec",
-\       "cmdopt": "-c -fd --tty",
-\   }
-\}
+nnoremap <silent> ,p :Unite buffer<CR>
+nnoremap <silent> ,n :Unite -buffer-name=file file<CR>
+nnoremap <silent> ,z :Unite file_mru<CR>
+nnoremap <silent> ,g :Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ,r :UniteResume search-buffer<CR>
 
 "
 " Git
@@ -173,7 +141,6 @@ au BufRead,BufNewFile *.md set filetype=markdown
 let g:vim_markdown_folding_disabled=1
 NeoBundle 'othree/html5.vim'                " html5
 NeoBundle 'slim-template/vim-slim'          " html.slim
-NeoBundle 'jwalton512/vim-blade'            " blade.php
 NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
 NeoBundle 'pangloss/vim-javascript'         " JavaScript
 NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
@@ -190,13 +157,6 @@ NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
 NeoBundle 'luochen1990/rainbow'             " coloring parentheses
 let g:rainbow_active = 1
 
-" Twitter on vim
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'basyura/twibill.vim'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'basyura/bitly.vim'
-NeoBundle 'basyura/TweetVim'
-
 " editor config plugin
 NeoBundle 'editorconfig/editorconfig-vim'
 
@@ -209,9 +169,7 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
-" edit .vimrc / help
-command! -nargs=0 Vimrc :tabnew ~/.vimrc
-command! -nargs=0 Reload :source ~/.vimrc
+" Closing help with <Esc><Esc>
 au FileType help nnoremap <silent> <buffer> <Esc><Esc> :q<CR>
 
 "
@@ -239,9 +197,6 @@ nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
 
 " TableModeをToggle
 nnoremap <silent> <C-t> :TableModeToggle<CR>i
-
-"
-" ウィンドウまわりのキーバインド
 
 "
 " タブまわりのキーバインド
@@ -420,58 +375,3 @@ function! AutoCompleteDeletePair()
   return ""
 endfunction
 inoremap <silent> <BS> <C-R>=AutoCompleteDeletePair()<CR>
-
-"
-" PHP: include HTML indentation
-" REF: http://vim.wikia.com/wiki/Better_indent_support_for_php_with_html
-" Better indent support for PHP by making it possible to indent HTML sections as well.
-function! GetPhpHtmlIndent(lnum)
-  if exists('*HtmlIndent')
-    let html_ind = HtmlIndent()
-  else
-    let html_ind = HtmlIndentGet(a:lnum)
-  endif
-  let php_ind = GetPhpIndent()
-  " priority one for php indent script
-  if php_ind > -1
-    return php_ind
-  endif
-  if html_ind > -1
-    if getline(a:num) =~ "^<?" && (0< searchpair('<?', '', '?>', 'nWb')
-          \ || 0 < searchpair('<?', '', '?>', 'nW'))
-      return -1
-    endif
-    return html_ind
-  endif
-  return -1
-endfunction
-function! EnablePhpHtmlIndent()
-  " This script pulls in the default indent/php.vim with the :runtime command
-  " which could re-run this script recursively unless we catch that:
-  if exists('s:doing_indent_inits')
-    echo 12
-    return
-  endif
-  let s:doing_indent_inits = 1
-  runtime! indent/html.vim
-  unlet b:did_indent
-  runtime! indent/php.vim
-  unlet s:doing_indent_inits
-  setlocal indentexpr=GetPhpHtmlIndent(v:lnum)
-  setlocal indentkeys+=<>>
-endfunction
-au FileType php,blade call EnablePhpHtmlIndent()
-
-"
-" quickrun rspec
-function! RSpecQuickrun()
-  let b:quickrun_config = { 'type' : 'rspec' }
-endfunction
-autocmd BufReadPost *_spec.rb call RSpecQuickrun()
-
-"
-" Colorize
-augroup quickrun
-  autocmd!
-  autocmd FileType quickrun AnsiEsc
-augroup END
