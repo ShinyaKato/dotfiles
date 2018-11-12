@@ -1,4 +1,4 @@
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic configs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -25,6 +25,7 @@ set number                       " 行番号を表示する
 set showmatch                    " 対応する括弧やブレースを表示する
 set autoindent                   " 改行時に前の行のインデントを継続する
 set smartindent                  " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set cinoptions=l1,g0             " cindentのオプション
 set tabstop=2                    " タブ文字の表示幅
 set shiftwidth=2                 " Vimが挿入するインデントの幅
 set smarttab                     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
@@ -340,8 +341,7 @@ function! AutoCompleteIndentBrackets()
       let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
       let current = matchstr(getline('.'), '.', col('.')-1 , 1)
       if prev == bracket.initial && current == bracket.final
-        " call feedkeys("\<Right>\<BS>\<CR>", "n")
-        call feedkeys("\<CR>\<CR>\<Up>\<Tab>", "n")
+        call feedkeys("\<CR>\<ESC>kA\<CR>", "n")
         return ""
       endif
     endfor
