@@ -339,7 +339,7 @@ function! AutoCompleteIndentBrackets()
   if g:enable_auto_complete != 0
     for bracket in g:auto_complete_indented_brackets
       let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
-      let current = matchstr(getline('.'), '.', col('.')-1 , 1)
+      let current = matchstr(getline('.'), '.', col('.')-1, 1)
       if prev == bracket.initial && current == bracket.final
         call feedkeys("\<CR>\<ESC>kA\<CR>", "n")
         return ""
@@ -364,9 +364,17 @@ function! AutoCompleteDeletePair()
   if g:enable_auto_complete != 0
     for pair in g:auto_complete_delete_pairs
       let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
-      let current = matchstr(getline('.'), '.', col('.')-1 , 1)
+      let current = matchstr(getline('.'), '.', col('.')-1, 1)
       if prev == pair.initial && current == pair.final
         call feedkeys("\<Right>\<BS>\<BS>", "n")
+        return ""
+      endif
+    endfor
+    for pair in g:auto_complete_delete_pairs
+      let prev    = matchstr(getline('.'), '.', col('.')-3, 1)
+      let current = matchstr(getline('.'), '.', col('.')-2, 1)
+      if prev == pair.initial && current == pair.final
+        call feedkeys("\<BS>\<BS>", "n")
         return ""
       endif
     endfor
