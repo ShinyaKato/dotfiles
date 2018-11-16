@@ -341,7 +341,7 @@ function! AutoCompleteIndentBrackets()
       let prev    = matchstr(getline('.'), '.', col('.')-2, 1)
       let current = matchstr(getline('.'), '.', col('.')-1, 1)
       if prev == bracket.initial && current == bracket.final
-        call feedkeys("\<ESC>lxo" . bracket.final . "\<ESC>O", "n")
+        call feedkeys("\<Right>\<BS>\<CR>" . bracket.final . "\<ESC>O", "n")
         return ""
       endif
     endfor
