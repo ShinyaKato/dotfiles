@@ -12,7 +12,7 @@ if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
   GIT_PS1_SHOWDIRTYSTATE=true
 fi
 ps1_body() {
-  echo '\h:\W'
+  echo '\u:\W'
 }
 ps1_tail() {
   echo '\$ '
