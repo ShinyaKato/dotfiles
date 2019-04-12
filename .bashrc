@@ -12,13 +12,13 @@ if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
   GIT_PS1_SHOWDIRTYSTATE=true
 fi
 ps1_body() {
-  echo '\u:\W'
+  echo '\[\e[1;36m\]\u:\W\[\e[00m\]'
 }
 ps1_tail() {
   echo '\$ '
 }
 ps1_branch() {
-  [[ $GIT_PS1_SHOWDIRTYSTATE ]] && echo '\[\e[1;36m\]$(__git_ps1 " [%s]")\[\e[00m\]'
+  [[ $GIT_PS1_SHOWDIRTYSTATE ]] && echo '\[\e[1;34m\]$(__git_ps1 " [%s]")\[\e[00m\]'
 }
 ps1_vim() {
   [[ $VIM ]] && echo '\[\e[1;32m\](vim)\[\e[00m\] '
