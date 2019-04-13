@@ -1,56 +1,100 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" basic configs
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---- 基本的な設定 ----
+" https://vim-jp.org/vimdoc-ja/options.html
 
-"
-" 参考 http://qiita.com/jnchito/items/5141b3b01bced9f7f48f
-set encoding=utf8
-set nocompatible                 " vi互換モードをOffに
-set noswapfile                   " スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
-set ruler                        " カーソルが何行目の何列目に置かれているかを表示する
-set cmdheight=2                  " コマンドラインに使われる画面上の行数
-set laststatus=2                 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
-set title                        " ウインドウのタイトルバーにファイルのパス情報等を表示する
-set wildmenu                     " コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
-set showcmd                      " 入力中のコマンドを表示する
-set smartcase                    " 小文字のみで検索したときに大文字小文字を無視する
-set hlsearch                     " 検索結果をハイライト表示する
-set background=dark              " 暗い背景色に合わせた配色にする
-set expandtab                    " タブ入力を複数の空白入力に置き換える
-set incsearch                    " 検索ワードの最初の文字を入力した時点で検索を開始する
-set hidden                       " 保存されていないファイルがあるときでも別のファイルを開けるようにする
-set list                         " 不可視文字を表示す
-set listchars=tab:>\ ,extends:<  " タブと行の続きを可視化する
-set number                       " 行番号を表示する
-set showmatch                    " 対応する括弧やブレースを表示する
-set autoindent                   " 改行時に前の行のインデントを継続する
-set smartindent                  " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
-set cinoptions=l1,g0,(0,Ws,m1    " cindentのオプション
-set tabstop=2                    " タブ文字の表示幅
-set shiftwidth=2                 " Vimが挿入するインデントの幅
-set smarttab                     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
-set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
-set backspace=2                  " backspaceを有効にする
-set clipboard=unnamed,autoselect " クリップボードを使用
-set nowrap                       " 行を折り返さない
-set visualbell t_vb=             " ビープ音/ビジュアルベルを無効化
-set splitright
-set splitbelow
+set encoding=utf8 " エンコーディング (UTF8)
+set nocompatible  " 互換モードをオフにする
+set noswapfile    " スワップファイルを作成しない
+set hidden        " ファイルが保存されていない時でも別のファイルを開けるようにする
+set belloff=all   " ビープ音/ビジュアルベルを無効化
 
-set statusline=%<%f\%m%r%h%w
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
-set statusline+=%{fugitive#statusline()}
-set statusline+=%=%l,%c%V%8P
+" 行頭/行末での移動をできるようにする
+set whichwrap=b  " <BS>
+set whichwrap+=s " <Space>
+set whichwrap+=h " h
+set whichwrap+=l " l
+set whichwrap+=< " <Left>
+set whichwrap+=> " <Right>
+set whichwrap+=[ " 挿入/置換 <Left>
+set whichwrap+=] " 挿入/置換 <Right>
 
-syntax on          " 構文毎に文字色を変化させる
-colorscheme desert " カラースキーマの指定
+ " クリップボード
+set clipboard+=unnamed
+set clipboard+=autoselect
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Plugins
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" カラースキーム
+colorscheme desert
+set background=dark " 黒い背景に合わせた色を使う
 
-"
-" Plugins Instllation with NeoBundle
+" タイトル (ターミナル・ウィンドウに表示される)
+"   %t: パスを除いたファイル名
+set title
+set titlestring=%t
+
+" 行数
+set number        " 左側に行数を表示する
+set numberwidth=3 " デフォルトの桁数を3桁にする
+
+" ステータスライン
+"   %f: 相対ファイルパス
+"   %y: ファイルタイプ
+"   %m: 修正フラグ
+"   %r: 読み込み専用フラグ
+"   %h: ヘルプフラグ
+"   %w: プレビューウィンドウフラグ
+"   %l: カーソルのある行数
+"   %c: カーソルのある列数
+"   %P: ファイル内の何％の位置か
+"   %L: ファイルの総行数
+set laststatus=2                    " 2: 常に表示する
+set statusline=%<%f\ %y%m%r%h%w    " ステータスライン(左側)
+set statusline+=%=%l,%c\ %4P\ [%LL] " ステータスライン(右側)
+
+" コマンド行
+set cmdheight=2 " コマンド行の表示行数
+set wildmenu    " <Tab>での補完を有効化
+set showcmd     " コマンド, 選択領域サイズを表示
+
+" シンタックスハイライト
+syntax on
+
+" 不可視文字を可視化する
+set list                  " 不可視文字の可視化
+set listchars=tab:>\      " \tの可視化
+
+" 行の折り返し
+set nowrap                " 行を折り返さない
+set listchars+=extends:>  " 右に表示されていない文字がある場合の表示
+set listchars+=precedes:< " 左に表示されていない文字がある場合の表示
+
+" インデント
+set expandtab      " \tの代わりにスペースを使う
+set tabstop=2      " \tの表示幅はスペース2つ
+set shiftwidth=2   " インデント幅はスペース2つ
+set autoindent     " 改行時に前の行のインデントを継続する
+set smartindent    " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set cinoptions=l1  " caseラベルそのもの基準にインデントする
+set cinoptions+=g0 " C++のスコープ宣言(public: など)をインデントしない
+set cinoptions+=(0 " 閉じていない丸括弧内でのインデントをしない
+set cinoptions+=Ws " 閉じていない丸括弧が行末にある時、前の行の先頭からインデントする
+set cinoptions+=m1 " 閉じ括弧の位置を開き括弧がある行の先頭に揃える
+
+" バックスペース
+set backspace=indent " インデントの削除の際には1段分消す
+set backspace+=eol   " 行頭での削除は行を連結する
+set backspace+=start " 挿入モードでの CTRL-W と CTRL-U は行頭で止める
+
+" 検索
+set smartcase " 大文字小文字を区別しない
+set hlsearch  " 検索結果をハイライト
+set incsearch " インクリメンタルサーチを有効にする
+
+" ウィンドウ
+set splitright " 垂直方向に分割する際に新しいウィンドウを右側に置く
+set splitbelow " 水平方向に分割する際に新しいウィンドウを下側に置く
+
+
+" ---- Plugins ----
+
 filetype off
 if has('vim_starting')
   set rtp+=$HOME/.vim/bundle/neobundle.vim
@@ -58,7 +102,6 @@ endif
 call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-"
 " vimproc
 NeoBundle 'Shougo/vimproc.vim', {
 \   'build': {
@@ -70,7 +113,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 \   },
 \ }
 
-"
 " Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
@@ -96,11 +138,6 @@ nnoremap <silent> ,z :Unite file_mru<CR>
 nnoremap <silent> ,g :Unite grep:. -buffer-name=search-buffer<CR>
 nnoremap <silent> ,r :UniteResume search-buffer<CR>
 
-"
-" Git
-NeoBundle 'tpope/vim-fugitive'
-
-"
 " Rails
 NeoBundle 'tpope/vim-rails'
 " basic settings
@@ -126,7 +163,6 @@ aug RailsDictSetting
   au!
 aug END
 
-"
 " support coding
 NeoBundle 'tpope/vim-surround'              " adding text object 'surroundings'
 NeoBundle 'mattn/emmet-vim'                 " support coding html
@@ -137,7 +173,6 @@ NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
 NeoBundle 'dhruvasagar/vim-table-mode'      " table format
 au FileType markdown let g:table_mode_corner="|"
 
-"
 " syntax
 NeoBundle 'plasticboy/vim-markdown'         " Markdown
 au BufRead,BufNewFile *.md set filetype=markdown
@@ -151,7 +186,6 @@ NeoBundle 'mxw/vim-jsx'                     " JSX
 let g:jsx_ext_required = 0
 NeoBundle 'leafgarland/typescript-vim'      " TypeScript
 
-"
 " visualization
 NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
 let g:indent_guides_enable_on_vim_startup=1
@@ -167,23 +201,17 @@ call neobundle#end()
 filetype plugin indent on
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" commands, key maping, etc...
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---- commands and key maping ----
 
-"
 " Closing help with <Esc><Esc>
 au FileType help nnoremap <silent> <buffer> <Esc><Esc> :q<CR>
 
-"
 " Insertモードの<ESC>を<C-j><C-j>にバインド
 inoremap <silent> <C-j><C-j> <ESC>
 
-"
 " 検索ハイライトを消す
 nnoremap <silent> <C-l><C-l> :noh<CR>
 
-"
 " Insert with no paste
 nnoremap ,i :<C-u>set paste<Return>i
 autocmd InsertLeave * set nopaste
@@ -201,7 +229,6 @@ nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
 " TableModeをToggle
 nnoremap <silent> <C-t> :TableModeToggle<CR>i
 
-"
 " タブまわりのキーバインド
 nnoremap <silent> <TAB>c     :tabnew %<CR>
 nnoremap <silent> <TAB>w     :tabclose<CR>
@@ -232,7 +259,6 @@ command! -nargs=1 MoveTabpage :call MoveTabpage(<f-args>)
 nnoremap <silent> <TAB><Right> :call MoveTabpage(1)<CR>
 nnoremap <silent> <TAB><Left>  :call MoveTabpage(-1)<CR>
 
-"
 " ファイルを閉じるときにカーソル位置を記憶
 if has("autocmd")
   augroup redhat
@@ -246,7 +272,6 @@ if has("autocmd")
   augroup END
 endif
 
-"
 " 挿入モード時、ステータスラインの色を変更
 let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
 if has('syntax')
@@ -275,7 +300,6 @@ function! s:GetHighlight(hi)
   return hl
 endfunction
 
-"
 " クォーテーション/括弧を自動補完
 let g:enable_auto_complete = 1
 function! AutoCompleteToggle()
