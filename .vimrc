@@ -95,30 +95,67 @@ set splitbelow " 水平方向に分割する際に新しいウィンドウを下
 
 " ---- Plugins ----
 
-filetype off
-if has('vim_starting')
-  set rtp+=$HOME/.vim/bundle/neobundle.vim
+if &compatible
+  set nocompatible
 endif
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-" vimproc
-NeoBundle 'Shougo/vimproc.vim', {
-\   'build': {
-\     'windows': 'tools\\update-dll-mingw',
-\     'cygwin':  'make -f make_cygwin.mak',
-\     'mac':     'make',
-\     'linux':   'make',
-\     'unix':    'gmake',
-\   },
-\ }
+if dein#load_state('~/.vim/dein')
+  call dein#begin(expand('~/.vim/dein'))
+  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
 
-" Unite
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'rking/ag.vim'
-" basic settings
+  call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+
+  " unite
+  call dein#add('Shougo/unite.vim')
+  call dein#add('Shougo/neomru.vim')
+
+  " grep
+  call dein#add('rking/ag.vim')
+
+  " rails
+  call dein#add('tpope/vim-rails')
+
+  " text editing
+  call dein#add('tpope/vim-surround')
+  call dein#add('mattn/emmet-vim')
+  call dein#add('junegunn/vim-easy-align')
+  call dein#add('tomtom/tcomment_vim')
+  call dein#add('dhruvasagar/vim-table-mode')
+
+  " syntax highlight
+  call dein#add('plasticboy/vim-markdown')
+  call dein#add('othree/html5.vim')
+  call dein#add('slim-template/vim-slim')
+  call dein#add('hail2u/vim-css3-syntax')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('kchmck/vim-coffee-script')
+  call dein#add('mxw/vim-jsx')
+  call dein#add('leafgarland/typescript-vim')
+
+  " visualization
+  call dein#add('nathanaelkane/vim-indent-guides')
+  call dein#add('bronson/vim-trailing-whitespace')
+  call dein#add('vim-scripts/AnsiEsc.vim')
+  call dein#add('luochen1990/rainbow')
+
+  " editorconfig for vim
+  call dein#add('editorconfig/editorconfig-vim')
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+" unite settings
 let g:unite_enable_start_insert=1
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+nnoremap <silent> ,p :Unite buffer<CR>
+nnoremap <silent> ,n :Unite -buffer-name=file file<CR>
+nnoremap <silent> ,z :Unite file_mru<CR>
+nnoremap <silent> ,g :Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ,r :UniteResume search-buffer<CR>
+
 " ag.vim
 let g:unite_enable_start_insert = 1
 let g:unite_enable_ignore_case = 1
@@ -128,19 +165,8 @@ if executable('ag')
   let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
   let g:unite_source_grep_recursive_opt = ''
 endif
-" Exit Unite
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-" key mapping
-nnoremap <silent> ,p :Unite buffer<CR>
-nnoremap <silent> ,n :Unite -buffer-name=file file<CR>
-nnoremap <silent> ,z :Unite file_mru<CR>
-nnoremap <silent> ,g :Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> ,r :UniteResume search-buffer<CR>
 
-" Rails
-NeoBundle 'tpope/vim-rails'
-" basic settings
+" vim-rails settings
 let g:rails_default_file='config/database.yml'
 let g:rails_level = 4
 let g:rails_mappings=1
@@ -148,14 +174,6 @@ let g:rails_modelines=0
 let g:rails_some_option = 1
 let g:rails_statusline = 1
 let g:rails_syntax = 1
-function! SetUpRailsSetting()
-  nnoremap <buffer><Space>r :R<CR>
-  nnoremap <buffer><Space>a :A<CR>
-  nnoremap <buffer><Space>m :Rmodel<Space>
-  nnoremap <buffer><Space>c :Rcontroller<Space>
-  nnoremap <buffer><Space>v :Rview<Space>
-  nnoremap <buffer><Space>p :Rpreview<CR>
-endfunction
 aug MyAutoCmd
   au User Rails call SetUpRailsSetting()
 aug END
@@ -163,42 +181,25 @@ aug RailsDictSetting
   au!
 aug END
 
-" support coding
-NeoBundle 'tpope/vim-surround'              " adding text object 'surroundings'
-NeoBundle 'mattn/emmet-vim'                 " support coding html
-NeoBundle 'junegunn/vim-easy-align'         " support alignment
+" vim-easy-align settings
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-NeoBundle 'tomtom/tcomment_vim'             " support comment out/in
-NeoBundle 'dhruvasagar/vim-table-mode'      " table format
+
+" vim-table-mode settings
 au FileType markdown let g:table_mode_corner="|"
 
-" syntax
-NeoBundle 'plasticboy/vim-markdown'         " Markdown
+" vim-markdown settings
 au BufRead,BufNewFile *.md set filetype=markdown
 let g:vim_markdown_folding_disabled=1
-NeoBundle 'othree/html5.vim'                " html5
-NeoBundle 'slim-template/vim-slim'          " html.slim
-NeoBundle 'hail2u/vim-css3-syntax'          " CSS3
-NeoBundle 'pangloss/vim-javascript'         " JavaScript
-NeoBundle 'kchmck/vim-coffee-script'        " CoffeeScript
-NeoBundle 'mxw/vim-jsx'                     " JSX
+
+" vim-jsx settings
 let g:jsx_ext_required = 0
-NeoBundle 'leafgarland/typescript-vim'      " TypeScript
 
-" visualization
-NeoBundle 'nathanaelkane/vim-indent-guides' " visualize indent
+" vim-indent-guides settings
 let g:indent_guides_enable_on_vim_startup=1
-NeoBundle 'bronson/vim-trailing-whitespace' " visualize whitespace
-NeoBundle 'vim-scripts/AnsiEsc.vim'         " coloring log file
-NeoBundle 'luochen1990/rainbow'             " coloring parentheses
+
+" rainbow settings
 let g:rainbow_active = 1
-
-" editor config plugin
-NeoBundle 'editorconfig/editorconfig-vim'
-
-call neobundle#end()
-filetype plugin indent on
 
 
 " ---- commands and key maping ----

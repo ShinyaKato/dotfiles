@@ -1,19 +1,20 @@
 # .vimrc configurations
 
-1. Install Vim
+1. Install vim
 
 ```bash
 sudo brew update
 sudo brew install vim
 ```
 
-2. Fetch NeoBundle
+2. Fetch dein.vim
 
-https://github.com/Shougo/neobundle.vim
+https://github.com/Shougo/dein.vim
 
 ```bash
-mkdir -p ~/.vim/bundle
-git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+sh ./installer.sh ~/.vim/dein
+rm installer.sh
 ```
 
 3. Fetch this repository
@@ -30,4 +31,4 @@ git clone https://github.com/ShinyaKato/dotfiles.git ~/dotfiles
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 ```
 
-5. Run vim and type :NeoBundleInstall
+5. Run vim and type `:call dein#install()`
