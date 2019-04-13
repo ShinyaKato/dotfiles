@@ -34,6 +34,8 @@ set backspace=2                  " backspaceを有効にする
 set clipboard=unnamed,autoselect " クリップボードを使用
 set nowrap                       " 行を折り返さない
 set visualbell t_vb=             " ビープ音/ビジュアルベルを無効化
+set splitright
+set splitbelow
 
 set statusline=%<%f\%m%r%h%w
 set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']'}
