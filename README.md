@@ -1,10 +1,46 @@
-# .vimrc configurations
+# dotfiles
+
+https://github.com/ShinyaKato/dotfiles
+
+Clone this repository to `~/dotfiles`.
+
+```bash
+git clone https://github.com/ShinyaKato/dotfiles.git ~/dotfiles
+```
+
+
+## bash settings
+
+1. Install bash
+
+```bash
+brew update
+brew install bash
+```
+
+2. Change login shell
+
+```bash
+sudo bash -c "echo $(which bash) >> /etc/shells"
+chsh -s $(which bash)
+```
+
+3. Create symbolic link
+
+```bash
+ln -s ~/dotfiles/.bashrc ~/.bashrc
+```
+
+4. Add `source ~/.bashrc` to `~/.bash_profile`
+
+
+## vim settings
 
 1. Install vim
 
 ```bash
-sudo brew update
-sudo brew install vim
+brew update
+brew install vim -- --with-lua --with-python3
 ```
 
 2. Fetch dein.vim
@@ -17,18 +53,10 @@ sh ./installer.sh ~/.vim/dein
 rm installer.sh
 ```
 
-3. Fetch this repository
-
-https://github.com/ShinyaKato/dotfiles
-
-```bash
-git clone https://github.com/ShinyaKato/dotfiles.git ~/dotfiles
-```
-
-4. Create symbolic link to `~/dotfiles/.vimrc`
+3. Create symbolic link
 
 ```bash
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 ```
 
-5. Run vim and type `:call dein#install()`
+4. Run vim and type `:call dein#install()`
