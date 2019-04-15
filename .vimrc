@@ -104,14 +104,12 @@ if dein#load_state('~/.vim/dein')
   call dein#begin(expand('~/.vim/dein'))
   call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
 
-  call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
-
-  " unite
+  " denite
+  call dein#add('roxma/nvim-yarp')
+  call dein#add('roxma/vim-hug-neovim-rpc')
+  call dein#add('Shougo/denite.nvim')
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/neomru.vim')
-
-  " grep
-  call dein#add('rking/ag.vim')
 
   " rails
   call dein#add('tpope/vim-rails')
@@ -146,25 +144,27 @@ if dein#load_state('~/.vim/dein')
   call dein#save_state()
 endif
 
-" unite settings
-let g:unite_enable_start_insert=1
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-nnoremap <silent> ,p :Unite buffer<CR>
-nnoremap <silent> ,n :Unite -buffer-name=file file<CR>
-nnoremap <silent> ,z :Unite file_mru<CR>
-nnoremap <silent> ,g :Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> ,r :UniteResume search-buffer<CR>
-
-" ag.vim
-let g:unite_enable_start_insert = 1
-let g:unite_enable_ignore_case = 1
-let g:unite_enable_smart_case = 1
+" denite.nvim settings
 if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
+  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
 endif
+call denite#custom#var('outline', 'options', ['-u'])
+call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#option('_', { 'direction': 'topleft', 'smartcase': v:true })
+nnoremap <silent> ,p :Denite buffer<CR>
+nnoremap <silent> ,n :Denite file/rec<CR>
+nnoremap <silent> ,z :Denite file_mru<CR>
+nnoremap <silent> ,g :Denite grep -buffer-name=search<CR>
+nnoremap <silent> ,r :Denite grep -buffer-name=search -resume<CR>
+nnoremap <silent> ,o :Denite outline<CR>
+nnoremap <silent> ,h :Denite help<CR>
 
 " vim-rails settings
 let g:rails_default_file='config/database.yml'
@@ -203,9 +203,6 @@ let g:rainbow_active = 1
 
 
 " ---- commands and key maping ----
-
-" Closing help with <Esc><Esc>
-au FileType help nnoremap <silent> <buffer> <Esc><Esc> :q<CR>
 
 " Insertモードの<ESC>を<C-j><C-j>にバインド
 inoremap <silent> <C-j><C-j> <ESC>

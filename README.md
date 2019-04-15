@@ -43,6 +43,20 @@ brew update
 brew install vim -- --with-lua --with-python3
 ```
 
+Install ag and ctags.
+
+```bash
+brew update
+brew install ag
+brew install ctags
+```
+
+denite.nvim requires `pynvim` module.
+
+```bash
+pip3 install --user pynvim
+```
+
 2. Fetch dein.vim
 
 https://github.com/Shougo/dein.vim
