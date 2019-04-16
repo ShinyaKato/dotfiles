@@ -407,3 +407,8 @@ function! AutoCompleteDeletePair()
   return ""
 endfunction
 inoremap <silent> <BS> <C-R>=AutoCompleteDeletePair()<CR>
+
+" split vertically with :terminal command
+command Vterm :vertical terminal
+cabbrev terminal Vterm
+cabbrev term Vterm
