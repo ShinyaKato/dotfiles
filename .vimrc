@@ -108,8 +108,9 @@ if dein#load_state('~/.vim/dein')
   call dein#add('roxma/nvim-yarp')
   call dein#add('roxma/vim-hug-neovim-rpc')
   call dein#add('Shougo/denite.nvim')
-  call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/neomru.vim')
+  call dein#add('jsfaint/gen_tags.vim')
+  call dein#add('ozelentok/denite-gtags')
 
   " rails
   call dein#add('tpope/vim-rails')
@@ -145,8 +146,15 @@ if dein#load_state('~/.vim/dein')
 endif
 
 " denite.nvim settings
+let g:gen_tags#gtags_default_map = 0
+let g:gen_tags#use_cache_dir = 0
+let g:gen_tags#gtags_auto_gen = 1
+let g:gen_tags#gtags_auto_update = 1
+let g:gen_tags#statusline = 1
+
 if executable('ag')
   call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
   call denite#custom#var('grep', 'command', ['ag'])
   call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
   call denite#custom#var('grep', 'recursive_opts', [])
@@ -154,16 +162,36 @@ if executable('ag')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 endif
-call denite#custom#var('outline', 'options', ['-u'])
+
+call denite#custom#map('normal', '<Up>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('normal', '<Down>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<Up>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>', 'noremap')
+
+call denite#custom#source('grep', 'matchers', ['matcher/substring'])
+call denite#custom#source('gtags_gtags_completion', 'matchers', ['matcher/substring'])
+call denite#custom#source('gtags_context', 'matchers', ['matcher/substring'])
+call denite#custom#source('gtags_file', 'matchers', ['matcher/substring'])
+
 call denite#custom#option('_', { 'direction': 'topleft', 'smartcase': v:true })
+call denite#custom#option('search', { 'empty': v:false })
+
+" command line option `-empty=false` does not work ?
+" command line option `-matchers` does not work ?
+" denite#custom#option with 'matchers' does not work ?
+" denite#custom#option with 'immediately-1' does not work ?
+" just after starting vim, grep with -empty=false causes error ?
+" just after starting vim, grep with -immediately-1=true causes error ?
+
 nnoremap <silent> ,p :Denite buffer<CR>
 nnoremap <silent> ,n :Denite file/rec<CR>
 nnoremap <silent> ,z :Denite file_mru<CR>
 nnoremap <silent> ,g :Denite grep -buffer-name=search<CR>
 nnoremap <silent> ,r :Denite grep -buffer-name=search -resume<CR>
-nnoremap <silent> ,o :Denite outline<CR>
+nnoremap <silent> ,t :Denite gtags_completion<CR>
+nnoremap <silent> ,d :DeniteCursorWord gtags_context -buffer-name=tag -immediately-1=true<CR>
+nnoremap <silent> ,e :Denite gtags_context -buffer-name=tag -resume<CR>
+nnoremap <silent> ,o :Denite gtags_file<CR>
 nnoremap <silent> ,h :Denite help<CR>
 
 " vim-rails settings
