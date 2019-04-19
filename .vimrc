@@ -176,13 +176,6 @@ call denite#custom#source('gtags_file', 'matchers', ['matcher/substring'])
 call denite#custom#option('_', { 'direction': 'topleft', 'smartcase': v:true })
 call denite#custom#option('search', { 'empty': v:false })
 
-" command line option `-empty=false` does not work ?
-" command line option `-matchers` does not work ?
-" denite#custom#option with 'matchers' does not work ?
-" denite#custom#option with 'immediately-1' does not work ?
-" just after starting vim, grep with -empty=false causes error ?
-" just after starting vim, grep with -immediately-1=true causes error ?
-
 nnoremap <silent> ,p :Denite buffer<CR>
 nnoremap <silent> ,n :Denite file/rec<CR>
 nnoremap <silent> ,z :Denite file_mru<CR>
