@@ -14,7 +14,6 @@ git clone https://github.com/ShinyaKato/dotfiles.git ~/dotfiles
 1. Install bash
 
 ```bash
-brew update
 brew install bash
 ```
 
@@ -43,12 +42,11 @@ brew update
 brew install vim -- --with-lua --with-python3
 ```
 
-Install ag and ctags.
+Install ag and gtags.
 
 ```bash
-brew update
 brew install ag
-brew install ctags
+brew install global -- --with-pygments
 ```
 
 denite.nvim requires `pynvim` module.
@@ -62,9 +60,7 @@ pip3 install --user pynvim
 https://github.com/Shougo/dein.vim
 
 ```bash
-curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-sh ./installer.sh ~/.vim/dein
-rm installer.sh
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh | bash -s ~/.vim/dein
 ```
 
 3. Create symbolic link
