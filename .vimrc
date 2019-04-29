@@ -78,7 +78,7 @@ set cinoptions+=g0 " C++のスコープ宣言(public: など)をインデント�
 set cinoptions+=(0 " 閉じていない丸括弧内でのインデントをしない
 set cinoptions+=Ws " 閉じていない丸括弧が行末にある時、前の行の先頭からインデントする
 set cinoptions+=m1 " 閉じ括弧の位置を開き括弧がある行の先頭に揃える
-filetype indent on
+filetype indent on " ファイル形式別のインデントファイルのロードを有効化する
 
 " バックスペース
 set backspace=indent " インデントの削除の際には1段分消す
