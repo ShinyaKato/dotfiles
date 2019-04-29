@@ -237,6 +237,11 @@ let g:rainbow_active = 1
 
 " ---- commands and key maping ----
 
+" ファイルを閉じた時のカーソル位置を復元
+augroup RestoreCurPos
+  autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+augroup END
+
 " Open help in vertical splited window
 autocmd FileType help wincmd L
 
@@ -292,19 +297,6 @@ endfunction
 command! -nargs=1 MoveTabpage :call MoveTabpage(<f-args>)
 nnoremap <silent> <TAB><Right> :call MoveTabpage(1)<CR>
 nnoremap <silent> <TAB><Left>  :call MoveTabpage(-1)<CR>
-
-" ファイルを閉じるときにカーソル位置を記憶
-if has("autocmd")
-  augroup redhat
-    " In text files, always limit the width of text to 78 characters
-    autocmd BufRead *.txt set tw=78
-    " When editing a file, always jump to the last cursor position
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
-  augroup END
-endif
 
 " 挿入モード時、ステータスラインの色を変更
 let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
