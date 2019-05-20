@@ -207,6 +207,7 @@ au FileType markdown let g:table_mode_corner="|"
 " vim-markdown settings
 au BufRead,BufNewFile *.md set filetype=markdown
 let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_new_list_item_indent=0
 
 " vim-jsx settings
 let g:jsx_ext_required = 0
