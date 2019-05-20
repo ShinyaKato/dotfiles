@@ -152,7 +152,6 @@ let g:gen_tags#gtags_default_map = 0
 let g:gen_tags#use_cache_dir = 0
 let g:gen_tags#gtags_auto_gen = 1
 let g:gen_tags#gtags_auto_update = 1
-let g:gen_tags#statusline = 1
 
 if executable('ag')
   call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
@@ -445,6 +444,4 @@ endfunction
 inoremap <silent> <BS> <C-R>=AutoCompleteDeletePair()<CR>
 
 " split vertically with :terminal command
-command Vterm :vertical terminal
-cabbrev terminal Vterm
-cabbrev term Vterm
+command Vterminal :vertical terminal
