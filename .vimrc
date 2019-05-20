@@ -224,11 +224,6 @@ let g:rainbow_active = 1
 " ヘルプのウィンドウを vertical split で開く
 autocmd FileType help wincmd L
 
-" ターミナルを vertical split で開く
-command Vterm :vertical terminal
-cabbrev terminal Vterm
-cabbrev term Vterm
-
 " 検索ハイライトを消す
 nnoremap <silent> <C-l><C-l> :noh<CR>
 
