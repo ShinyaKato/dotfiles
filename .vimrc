@@ -78,7 +78,7 @@ set cinoptions+=g0 " C++のスコープ宣言(public: など)をインデント�
 set cinoptions+=(0 " 閉じていない丸括弧内でのインデントをしない
 set cinoptions+=Ws " 閉じていない丸括弧が行末にある時、前の行の先頭からインデントする
 set cinoptions+=m1 " 閉じ括弧の位置を開き括弧がある行の先頭に揃える
-filetype indent on
+filetype indent on " ファイル形式別のインデントファイルのロードを有効化する
 
 " バックスペース
 set backspace=indent " インデントの削除の際には1段分消す
@@ -197,22 +197,6 @@ let g:rails_some_option = 1
 let g:rails_statusline = 1
 let g:rails_syntax = 1
 
-function! SetUpRailsSetting()
-  nnoremap <buffer><Space>r :R<CR>
-  nnoremap <buffer><Space>a :A<CR>
-  nnoremap <buffer><Space>m :Rmodel<Space>
-  nnoremap <buffer><Space>c :Rcontroller<Space>
-  nnoremap <buffer><Space>v :Rview<Space>
-  nnoremap <buffer><Space>p :Rpreview<CR>
-endfunction
-
-aug MyAutoCmd
-  au User Rails call SetUpRailsSetting()
-aug END
-aug RailsDictSetting
-  au!
-aug END
-
 " vim-easy-align settings
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -234,76 +218,31 @@ let g:indent_guides_enable_on_vim_startup=1
 let g:rainbow_active = 1
 
 
-" ---- commands and key maping ----
+" ---- Commands and key Mappings ----
 
-" Open help in vertical splited window
+" ヘルプのウィンドウを vertical split で開く
 autocmd FileType help wincmd L
 
-" Insertモードの<ESC>を<C-j><C-j>にバインド
-inoremap <silent> <C-j><C-j> <ESC>
+" ターミナルを vertical split で開く
+command Vterm :vertical terminal
+cabbrev terminal Vterm
+cabbrev term Vterm
 
 " 検索ハイライトを消す
 nnoremap <silent> <C-l><C-l> :noh<CR>
 
-" Insert with no paste
-nnoremap ,i :<C-u>set paste<Return>i
+" インデントや補完をオフにしてインサートモードに入る
+nnoremap ,i :set paste<CR>i
 autocmd InsertLeave * set nopaste
 
-" 行数の表示をtoggle
-function! Setnumber()
-  if &number
-    setlocal nonumber
-  else
-    setlocal number
-  endif
-endfunction
-nnoremap <silent> <C-m><C-m> :call Setnumber()<CR>
+" 行数の表示を Toggle
+nnoremap <silent> <C-m><C-m> :if &number<CR> :setlocal nonumber<CR> :else<CR> :setlocal number<CR> :endif<CR>
 
-" TableModeをToggle
+" TableMode を Toggle
 nnoremap <silent> <C-t> :TableModeToggle<CR>i
 
-" タブまわりのキーバインド
-nnoremap <silent> <TAB>c     :tabnew %<CR>
-nnoremap <silent> <TAB>w     :tabclose<CR>
-nnoremap <silent> <TAB><S-w> :tabonly<CR>
-nnoremap <silent> <TAB>1     :tabn 1<CR>
-nnoremap <silent> <TAB>2     :tabn 2<CR>
-nnoremap <silent> <TAB>3     :tabn 3<CR>
-nnoremap <silent> <TAB>4     :tabn 4<CR>
-nnoremap <silent> <TAB>5     :tabn 5<CR>
-nnoremap <silent> <TAB><TAB> :tabnext<CR>
-nnoremap <silent> <TAB>k     :tabnext<CR>
-nnoremap <silent> <TAB>j     :tabprevious<CR>
-" タブの移動
-function! MoveTabpage(num)
-  if type(a:num) != type(0)
-    return
-  endif
-  let pos = tabpagenr() - 1 + a:num
-  let tabcount = tabpagenr("$")
-  if pos < 0
-    let pos = tabcount - 1
-  elseif pos >= tabcount
-    let pos = 0
-  endif
-  execute "tabmove " . pos
-endfunction
-command! -nargs=1 MoveTabpage :call MoveTabpage(<f-args>)
-nnoremap <silent> <TAB><Right> :call MoveTabpage(1)<CR>
-nnoremap <silent> <TAB><Left>  :call MoveTabpage(-1)<CR>
-
-" ファイルを閉じるときにカーソル位置を記憶
-if has("autocmd")
-  augroup redhat
-    " In text files, always limit the width of text to 78 characters
-    autocmd BufRead *.txt set tw=78
-    " When editing a file, always jump to the last cursor position
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
-  augroup END
-endif
+" ファイルを閉じた時のカーソル位置を復元
+autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
 " 挿入モード時、ステータスラインの色を変更
 let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
