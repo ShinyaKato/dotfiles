@@ -39,14 +39,14 @@ ln -s ~/dotfiles/.bashrc ~/.bashrc
 
 ```bash
 brew update
-brew install vim -- --with-lua --with-python3
+brew install vim
 ```
 
 Install ag and gtags.
 
 ```bash
 brew install ag
-brew install global -- --with-pygments
+brew install global
 ```
 
 denite.nvim requires `pynvim` module.

@@ -1,9 +1,11 @@
-## use rmtrash instead rm command
-alias rm='rmtrash'
-
 ## include git completion
 if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
   source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+fi
+
+## github-cli completion
+if !(type "gh" > /dev/null 2>&1); then
+  eval "$(gh completion -s bash)"
 fi
 
 ## prompt settings
